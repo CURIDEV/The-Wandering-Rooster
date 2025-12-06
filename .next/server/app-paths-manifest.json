@@ -1,0 +1,7 @@
+{
+  "/food-menu/page": "app/food-menu/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/gallery/page": "app/gallery/page.js",
+  "/testimonial/page": "app/testimonial/page.js",
+  "/page": "app/page.js"
+}

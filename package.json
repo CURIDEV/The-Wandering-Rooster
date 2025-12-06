@@ -1,0 +1,22 @@
+{
+  "name": "foodking-react",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.2.8",
+    "rc-slider": "^11.1.7",
+    "react": "^18",
+    "react-bootstrap": "^1.6.1",
+    "react-dom": "^18",
+    "react-nice-select": "^1.0.6",
+    "react-player": "^2.16.0",
+    "swiper": "^11.1.14",
+    "wowjs": "^1.1.3"
+  }
+}
