@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { addToCart } from '@/utils/cartUtils';
 import Cta from "@/components/Cta";
 import PageBanner from "@/components/PageBanner";
 import ProductTopBar from "@/components/ProductTopBar";
@@ -12,7 +11,6 @@ const Page = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [notification, setNotification] = useState({ show: false, message: '' });
 
   useEffect(() => {
     fetchProducts();
@@ -53,19 +51,6 @@ const Page = () => {
     }
   };
 
-  const handleAddToCart = (product) => {
-    // Add to cart using utility function
-    addToCart(product, 1);
-    
-    // Show notification
-    setNotification({ show: true, message: `${product.name} added to cart!` });
-    
-    // Hide notification after 2 seconds
-    setTimeout(() => {
-      setNotification({ show: false, message: '' });
-    }, 2000);
-  };
-
   const calculateDiscount = (regularPrice, salePrice) => {
     if (!salePrice || salePrice === regularPrice) return null;
     const regular = parseFloat(regularPrice);
@@ -91,28 +76,6 @@ const Page = () => {
   return (
     <FoodKingLayout>
       <PageBanner pageName={"Shop Page"} />
-      
-      {/* Success Notification */}
-      {notification.show && (
-        <div style={{
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          background: '#28a745',
-          color: 'white',
-          padding: '15px 25px',
-          borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-          zIndex: 9999,
-          animation: 'slideIn 0.3s ease-out',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <i className="fas fa-check-circle"></i>
-          {notification.message}
-        </div>
-      )}
 
       <section className="food-category-section fix section-padding">
         <div className="container">
@@ -177,17 +140,14 @@ const Page = () => {
                         </a>
                         <div className="catagory-product-content">
                           <div className="catagory-button">
-                            <button 
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleAddToCart(product);
-                              }}
+                            <a 
+                              href={`/shop-single?id=${product.id}`}
                               className="theme-btn-2"
-                              style={{ border: 'none', cursor: 'pointer' }}
+                              style={{ textDecoration: 'none' }}
                             >
                               <i className="far fa-shopping-basket" />
-                              Add To Cart
-                            </button>
+                              View Product
+                            </a>
                           </div>
                           <div className="info-price d-flex align-items-center justify-content-center">
                             {hasDiscount && <p>-{discount}%</p>}
@@ -252,20 +212,6 @@ const Page = () => {
           )}
         </div>
       </section>
-
-      {/* Add animation for notification */}
-      <style jsx>{`
-        @keyframes slideIn {
-          from {
-            transform: translateX(400px);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-      `}</style>
 
       <Cta />
     </FoodKingLayout>
