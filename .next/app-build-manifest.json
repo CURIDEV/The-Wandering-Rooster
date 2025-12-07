@@ -31,11 +31,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/_not-found/page.js"
     ],
-    "/shop-single/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/shop-single/page.js"
-    ],
     "/news/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
