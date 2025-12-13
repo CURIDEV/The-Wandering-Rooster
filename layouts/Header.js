@@ -22,7 +22,7 @@ const Menus = () => {
         <Link href="/">Home</Link>
       </li>
       <li>
-        <a href={process.env.NEXT_PUBLIC_WC_SITE_URL || "https://store.thewanderingrooster.com"} target="_blank" rel="noopener noreferrer">
+        <a href={process.env.NEXT_PUBLIC_WC_SITE_URL || "https://store.thewanderingrooster.com"}>
           Shop
         </a>
       </li>
@@ -34,7 +34,7 @@ const Menus = () => {
       </li>
       <li className="has-dropdown">
         <Link href="/about">
-          Pages
+          About Us
           <i className="fas fa-angle-down" />
         </Link>
         <ul className="submenu">
@@ -183,8 +183,6 @@ const Header2 = () => {
                   <div className="header-button">
                     <a 
                       href={process.env.NEXT_PUBLIC_WC_SITE_URL || "https://store.thewanderingrooster.com"}
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="theme-btn bg-transparent"
                     >
                       <span className="button-content-wrapper d-flex align-items-center">
@@ -207,86 +205,150 @@ const Header2 = () => {
 };
 
 const MobileMenu = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState("");
-  const [multiMenu, setMultiMenu] = useState("");
-  const activeMenuSet = (value) =>
-      setActiveMenu(activeMenu === value ? "" : value),
-    activeLi = (value) =>
-      value === activeMenu ? { display: "block" } : { display: "none" };
-  const multiMenuSet = (value) =>
-      setMultiMenu(multiMenu === value ? "" : value),
-    multiMenuActiveLi = (value) =>
-      value === multiMenu ? { display: "block" } : { display: "none" };
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const closeMenu = () => setIsOpen(false);
+  const toggleSubmenu = (menu) => setActiveMenu(activeMenu === menu ? "" : menu);
+
   return (
-    <div className="mobile-menu fix mb-3 mean-container d-block d-lg-none">
-      <div className="mean-bar">
-        <a href="#nav" className="meanmenu-reveal">
-          <span>
-            <span>
-              <span />
-            </span>
-          </span>
-        </a>
-        <nav className="mean-nav">
-          <ul>
-            <li>
-              <Link href="/">Home</Link>
+    <div className="twr-mobile-menu d-block d-lg-none" style={{ background: '#1a1a1a', padding: '20px' }}>
+      <div style={{ position: 'relative' }}>
+        <button 
+          onClick={toggleMenu}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '45px',
+            height: '45px',
+            background: '#D12525',
+            borderRadius: '6px',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0
+          }}
+        >
+          <div style={{ width: '25px', height: '20px', position: 'relative' }}>
+            <span style={{
+              display: 'block',
+              background: '#fff',
+              height: '3px',
+              width: '100%',
+              position: 'absolute',
+              top: 0,
+              borderRadius: '2px',
+              transition: 'all 0.3s',
+              transform: isOpen ? 'rotate(45deg)' : 'none',
+              transformOrigin: 'center',
+              top: isOpen ? '8px' : '0'
+            }}></span>
+            <span style={{
+              display: 'block',
+              background: '#fff',
+              height: '3px',
+              width: '100%',
+              position: 'absolute',
+              top: '8px',
+              borderRadius: '2px',
+              transition: 'all 0.3s',
+              opacity: isOpen ? 0 : 1
+            }}></span>
+            <span style={{
+              display: 'block',
+              background: '#fff',
+              height: '3px',
+              width: '100%',
+              position: 'absolute',
+              bottom: 0,
+              borderRadius: '2px',
+              transition: 'all 0.3s',
+              transform: isOpen ? 'rotate(-45deg)' : 'none',
+              transformOrigin: 'center',
+              bottom: isOpen ? '8px' : '0'
+            }}></span>
+          </div>
+        </button>
+        
+        <nav style={{
+          maxHeight: isOpen ? '1000px' : '0',
+          overflow: 'hidden',
+          transition: 'max-height 0.3s',
+          marginTop: '20px'
+        }}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+              <Link href="/" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
+                Home
+              </Link>
             </li>
-            <li>
-              <a href={process.env.NEXT_PUBLIC_WC_SITE_URL || "https://store.thewanderingrooster.com"} target="_blank" rel="noopener noreferrer">
+            <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+              <a href={process.env.NEXT_PUBLIC_WC_SITE_URL || "https://store.thewanderingrooster.com"} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
                 Shop
               </a>
             </li>
-            <li>
-              <Link href="/food-menu">Menu</Link>
+            <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+              <Link href="/food-menu" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
+                Menu
+              </Link>
             </li>
-            <li>
-              <Link href="/news">
+            <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+              <Link href="/news" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
                 Blog
-                <i className="fas fa-angle-down" />
               </Link>
-              <ul className="submenu" style={activeLi("news")}>
+            </li>
+            <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', position: 'relative' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Link href="/about" style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500, flex: 1 }}>
+                  Pages
+                </Link>
+                <button 
+                  onClick={() => toggleSubmenu('pages')}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    background: 'rgba(255,255,255,0.1)',
+                    border: 'none',
+                    color: '#fff',
+                    borderRadius: '4px',
+                    marginRight: '10px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <i className="far fa-plus" style={{ transform: activeMenu === 'pages' ? 'rotate(45deg)' : 'none', transition: 'transform 0.3s' }}></i>
+                </button>
+              </div>
+              <ul style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: 0,
+                background: 'rgba(0,0,0,0.3)',
+                maxHeight: activeMenu === 'pages' ? '500px' : '0',
+                overflow: 'hidden',
+                transition: 'max-height 0.3s'
+              }}>
                 <li>
-                  <Link href="/news">Blog</Link>
+                  <Link href="/about" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px 15px 30px', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '14px' }}>
+                    About Us
+                  </Link>
                 </li>
                 <li>
-                  <Link href="/news-details">Blog Details</Link>
+                  <Link href="/gallery" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px 15px 30px', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '14px' }}>
+                    Gallery
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/testimonial" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px 15px 30px', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '14px' }}>
+                    Testimonials
+                  </Link>
                 </li>
               </ul>
-              <a
-                className="mean-expand"
-                href="#"
-                onClick={() => activeMenuSet("news")}
-              >
-                <i className="far fa-plus" />
-              </a>
             </li>
-            <li className="has-dropdown">
-              <Link href="/about">
-                Pages
-                <i className="fas fa-angle-down" />
+            <li>
+              <Link href="/contact" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
+                Contact
               </Link>
-              <ul className="submenu" style={activeLi("pages")}>
-                <li>
-                  <Link href="/about">About Us</Link>
-                </li>
-                <li>
-                  <Link href="/gallery">Gallery</Link>
-                </li>
-                <li>
-                  <Link href="/testimonial">Testimonials</Link>
-                </li>
-              </ul>
-              <a
-                className="mean-expand"
-                href="#"
-                onClick={() => activeMenuSet("pages")}
-              >
-                <i className="far fa-plus" />
-              </a>
-            </li>
-            <li className="mean-last">
-              <Link href="/contact">Contact</Link>
             </li>
           </ul>
         </nav>

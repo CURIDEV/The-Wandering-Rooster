@@ -26,21 +26,32 @@ const BlogSidebar = () => {
       const credentials = btoa(`${consumerKey}:${consumerSecret}`);
       
       // Fetch categories and recent posts in parallel
+      // REMOVED hide_empty parameter to show categories even with 0 posts
       const [categoriesResponse, postsResponse] = await Promise.all([
-        fetch(`${url}/wp-json/wp/v2/categories?per_page=10&hide_empty=true`, {
-          headers: { 'Authorization': `Basic ${credentials}` },
+        fetch(`${url}/wp-json/wp/v2/categories?per_page=100`, {
+          headers: { 
+            'Authorization': `Basic ${credentials}`,
+            'Content-Type': 'application/json',
+          },
+          cache: 'no-store',
         }),
         fetch(`${url}/wp-json/wp/v2/posts?per_page=3&_embed`, {
-          headers: { 'Authorization': `Basic ${credentials}` },
+          headers: { 
+            'Authorization': `Basic ${credentials}`,
+            'Content-Type': 'application/json',
+          },
+          cache: 'no-store',
         })
       ]);
 
       if (categoriesResponse.ok) {
         const categoriesData = await categoriesResponse.json();
-        // Filter out "Uncategorized" and other system categories
+        
+        // Filter out ONLY "Uncategorized" - keep everything else including empty categories
         const filteredCategories = categoriesData.filter(cat => 
-          cat.name !== 'Uncategorized' && cat.count > 0
+          cat.slug !== 'uncategorized'
         );
+        
         setCategories(filteredCategories);
       }
 
@@ -58,6 +69,7 @@ const BlogSidebar = () => {
 
   // Helper to decode HTML entities
   const decodeHTMLEntities = (text) => {
+    if (typeof window === 'undefined') return text;
     const textarea = document.createElement('textarea');
     textarea.innerHTML = text;
     return textarea.value;
@@ -81,6 +93,27 @@ const BlogSidebar = () => {
     });
   };
 
+  // Get appropriate Font Awesome icon based on category name/slug
+  const getCategoryIcon = (category) => {
+    const slug = category.slug.toLowerCase();
+    const name = category.name.toLowerCase();
+    
+    // Match your specific Key West categories
+    if (slug.includes('thing') || name.includes('things to do')) return 'fas fa-map-marked-alt';
+    if (slug.includes('event') || name.includes('event') || name.includes('local event')) return 'fas fa-calendar-alt';
+    if (slug.includes('food') || name.includes('food')) return 'fas fa-utensils';
+    if (slug.includes('beach') || name.includes('beach')) return 'fas fa-umbrella-beach';
+    if (slug.includes('gem') || slug.includes('hidden')) return 'fas fa-gem';
+    if (slug.includes('guide')) return 'fas fa-book-open';
+    if (slug.includes('restaurant')) return 'fas fa-utensils';
+    if (slug.includes('local')) return 'fas fa-map-marker-alt';
+    if (slug.includes('news')) return 'fas fa-newspaper';
+    if (slug.includes('tip')) return 'fas fa-lightbulb';
+    
+    // Default icon
+    return 'fas fa-folder';
+  };
+
   return (
     <div className="col-12 col-lg-4">
       <div className="main-sidebar">
@@ -100,7 +133,9 @@ const BlogSidebar = () => {
                     className="thumb bg-cover"
                     style={{
                       backgroundImage: `url("${getFeaturedImage(post)}")`,
-                      minHeight: '80px'
+                      minHeight: '80px',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
                     }}
                   />
                   <div className="post-content">
@@ -122,7 +157,7 @@ const BlogSidebar = () => {
           </div>
         </div>
 
-        {/* Categories */}
+        {/* Categories - Shows ALL categories including empty ones */}
         <div className="single-sidebar-widget">
           <div className="wid-title">
             <h4>Categories</h4>
@@ -130,60 +165,21 @@ const BlogSidebar = () => {
           <div className="widget_categories">
             <ul>
               {loading ? (
-                <li style={{ textAlign: 'center', color: '#999' }}>Loading...</li>
+                <li style={{ textAlign: 'center', color: '#999', padding: '10px' }}>Loading categories...</li>
               ) : categories.length > 0 ? (
                 categories.map(category => (
                   <li key={category.id}>
                     <Link href={`/news?category=${category.slug}`}>
-                      <i className="flaticon-fork" />
-                      {category.name} <span>{category.count}</span>
+                      <i className={getCategoryIcon(category)} />
+                      {category.name} <span>({category.count})</span>
                     </Link>
                   </li>
                 ))
               ) : (
-                <li style={{ textAlign: 'center', color: '#999' }}>No categories</li>
+                <li style={{ textAlign: 'center', color: '#999', padding: '10px' }}>
+                  No categories found
+                </li>
               )}
-            </ul>
-          </div>
-        </div>
-
-        {/* Key West Guide - Static Links */}
-        <div className="single-sidebar-widget">
-          <div className="wid-title">
-            <h4>Key West Guide</h4>
-          </div>
-          <div className="widget_categories">
-            <ul>
-              <li>
-                <Link href="/news?category=things-to-do">
-                  <i className="flaticon-location" />
-                  Things to Do
-                </Link>
-              </li>
-              <li>
-                <Link href="/news?category=events">
-                  <i className="flaticon-calendar" />
-                  Local Events
-                </Link>
-              </li>
-              <li>
-                <Link href="/news?category=food-guide">
-                  <i className="flaticon-restaurant" />
-                  Food Guide
-                </Link>
-              </li>
-              <li>
-                <Link href="/news?category=beaches">
-                  <i className="flaticon-beach" />
-                  Beaches
-                </Link>
-              </li>
-              <li>
-                <Link href="/news?category=hidden-gems">
-                  <i className="flaticon-map" />
-                  Hidden Gems
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
@@ -194,18 +190,55 @@ const BlogSidebar = () => {
             <h4>Follow Us</h4>
           </div>
           <div className="social-link">
-            <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.facebook.com/thewanderingrooster" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-facebook-f" />
             </a>
-            <a href="https://twitter.com/yourpage" target="_blank" rel="noopener noreferrer">
+            <a href="https://twitter.com/wanderingrooster" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-twitter" />
             </a>
-            <a href="https://instagram.com/yourpage" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/thewanderingrooster" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-instagram" />
             </a>
-            <a href="https://www.google.com/search?q=your+business" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.google.com/search?q=The+Wandering+Rooster+Key+West" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-google" />
             </a>
+          </div>
+        </div>
+
+        {/* Newsletter Signup */}
+        <div className="single-sidebar-widget">
+          <div className="wid-title">
+            <h4>Newsletter</h4>
+          </div>
+          <div className="newsletter-widget">
+            <p style={{ marginBottom: '15px', fontSize: '14px', lineHeight: '1.6' }}>
+              Get the latest Key West tips and updates from The Wandering Rooster
+            </p>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <input 
+                type="email" 
+                placeholder="Your email address" 
+                style={{
+                  width: '100%',
+                  padding: '12px 15px',
+                  border: '1px solid #ddd',
+                  borderRadius: '5px',
+                  marginBottom: '10px',
+                  fontSize: '14px'
+                }}
+                required
+              />
+              <button 
+                type="submit"
+                className="theme-btn"
+                style={{
+                  width: '100%',
+                  padding: '12px'
+                }}
+              >
+                Subscribe
+              </button>
+            </form>
           </div>
         </div>
 

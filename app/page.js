@@ -182,7 +182,7 @@ const Page = () => {
                     data-wow-delay={`.${(index % 4) * 2 + 3}s`}
                   >
                     <div className="catagory-product-card-2 text-center">
-                      <a href={`/shop-single?id=${product.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                      <a href={`https://store.thewanderingrooster.com/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
                         <div className="catagory-product-image" style={{ 
                           borderRadius: '8px 8px 0 0', 
                           overflow: 'hidden',
@@ -206,16 +206,16 @@ const Page = () => {
                       </a>
                       <div className="catagory-product-content">
                         <div className="catagory-button">
-                          <Link href={`/shop-single?id=${product.id}`} className="theme-btn-2">
+                          <a href={`https://store.thewanderingrooster.com/product/${product.slug}`} className="theme-btn-2">
                             <i className="far fa-shopping-basket" />
                             Shop Now
-                          </Link>
+                          </a>
                         </div>
                         <div className="info-price d-flex align-items-center justify-content-center">
                           <span>${parseFloat(product.price).toFixed(2)}</span>
                         </div>
                         <h4>
-                          <a href={`/shop-single?id=${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                          <a href={`https://store.thewanderingrooster.com/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             {product.name}
                           </a>
                         </h4>

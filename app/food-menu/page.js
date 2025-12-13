@@ -13,6 +13,25 @@ const FoodMenu2 = () => {
   // Replace with your SkyTab online ordering URL
   const SKYTAB_URL = "https://your-skytab-ordering-url.com";
 
+  // Define your custom department order here
+  const DEPARTMENT_ORDER = [
+    'Starters',
+    'Smash Burgers', 
+    'Conch Classics',
+    'Island Fresh',
+    'Shaved Ice',
+    'Sunset Sides',
+    'Beverages',
+    'Sides',
+    'Side Orders',
+    'Desserts',
+    'Beverages',
+    'Drinks',
+    'Smoothies',
+    'Ice Cream',
+    'Shaved Ice'
+  ];
+
   useEffect(() => {
     fetchMenuItems();
   }, []);
@@ -72,15 +91,15 @@ const FoodMenu2 = () => {
     }
   };
 
-  // Group items by their categories
+  // Group items by their categories with custom ordering
   const groupByCategory = () => {
     const grouped = {};
     
     menuItems.forEach(item => {
       if (item.categories && item.categories.length > 0) {
         item.categories.forEach(cat => {
-          // Skip the main "Food Menu" category (ID 27)
-          if (cat.id !== 27) {
+          // Skip the main "Food Menu" category (ID 16)
+          if (cat.id !== 16) {
             if (!grouped[cat.name]) {
               grouped[cat.name] = {
                 id: cat.id,
@@ -94,8 +113,36 @@ const FoodMenu2 = () => {
       }
     });
 
-    // Convert to array and sort alphabetically
-    return Object.values(grouped).sort((a, b) => a.name.localeCompare(b.name));
+    // Convert to array
+    const categoriesArray = Object.values(grouped);
+
+    // Sort by custom department order
+    categoriesArray.sort((a, b) => {
+      const indexA = DEPARTMENT_ORDER.findIndex(dept => 
+        a.name.toLowerCase().includes(dept.toLowerCase()) || 
+        dept.toLowerCase().includes(a.name.toLowerCase())
+      );
+      const indexB = DEPARTMENT_ORDER.findIndex(dept => 
+        b.name.toLowerCase().includes(dept.toLowerCase()) || 
+        dept.toLowerCase().includes(b.name.toLowerCase())
+      );
+
+      // If both found in order list, sort by their position
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      }
+      
+      // If only A is in the list, it comes first
+      if (indexA !== -1) return -1;
+      
+      // If only B is in the list, it comes first
+      if (indexB !== -1) return 1;
+      
+      // If neither is in the list, sort alphabetically
+      return a.name.localeCompare(b.name);
+    });
+
+    return categoriesArray;
   };
 
   const categories = groupByCategory();
@@ -105,11 +152,14 @@ const FoodMenu2 = () => {
     const name = categoryName.toLowerCase();
     if (name.includes('burger')) return 'flaticon-burger';
     if (name.includes('side')) return 'flaticon-french-fries';
-    if (name.includes('starter')) return 'flaticon-quality'; // Or could use flaticon-chicken
-    if (name.includes('classic')) return 'flaticon-sandwich';
-    if (name.includes('smoothie')) return 'flaticon-coffee'; // Blender/drink icon
+    if (name.includes('starter') || name.includes('appetizer')) return 'flaticon-quality';
+    if (name.includes('sandwich') || name.includes('classic')) return 'flaticon-sandwich';
+    if (name.includes('smoothie')) return 'flaticon-coffee';
     if (name.includes('beverage') || name.includes('drink')) return 'flaticon-soft-drink';
     if (name.includes('ice') || name.includes('shaved')) return 'flaticon-ice-cream';
+    if (name.includes('salad')) return 'flaticon-quality';
+    if (name.includes('main') || name.includes('entree')) return 'flaticon-chicken';
+    if (name.includes('dessert')) return 'flaticon-ice-cream';
     return 'flaticon-fork';
   };
 
