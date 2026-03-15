@@ -16,7 +16,7 @@ const featuredMenuItems = [
   {
     id: 3,
     name: "Smash Burger",
-    image: "/assets/img/menu/smash-burger.jpg",
+    image: "/assets/img/food/burger.png",
   },
 ];
  
