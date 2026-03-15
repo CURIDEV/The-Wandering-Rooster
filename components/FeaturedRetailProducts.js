@@ -11,7 +11,7 @@ const retailProducts = [
     id: 2,
     name: "CAFO Tee",
     price: "20.00",
-    image: "/assets/img/retail/cafo-tee.jpg",
+    image: "/assets/img/retail-images/cafoback.png",
   },
   {
     id: 3,
