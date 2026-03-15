@@ -184,10 +184,9 @@ const Header2 = () => {
                   </a>
                   
                   <div className="header-button">
-                    <a 
-                      href={process.env.NEXT_PUBLIC_WC_SITE_URL || "https://store.thewanderingrooster.com"}
-                      className="theme-btn bg-transparent"
-                    >
+                    <a href="https://your-new-shopify-store.myshopify.com"
+  className="theme-btn bg-transparent"
+>
                       <span className="button-content-wrapper d-flex align-items-center">
                         <span className="button-icon">
                           <i className="flaticon-delivery" />
