@@ -287,7 +287,7 @@ const MobileMenu = () => {
               </Link>
             </li>
             <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-              <a href={process.env.NEXT_PUBLIC_WC_SITE_URL || "https://www.roostershop.store"} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
+              <a href="https://www.roostershop.store" style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
                 Shop
               </a>
             </li>
