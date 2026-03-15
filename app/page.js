@@ -1,6 +1,5 @@
 'use client';
-
-import { useState, useEffect } from 'react';
+ 
 import { SingleHeroSlide } from "@/components/SingleHeroSlide";
 import NewsletterCTA from "@/components/NewsletterCTA";
 import ModernTestimonials from "@/components/ModernTestimonials";
@@ -8,67 +7,16 @@ import FoodKingLayout from "@/layouts/FoodKingLayout";
 import Link from "next/link";
 import FeaturedMenuItems from "@/components/FeaturedMenuItems";
 import FeaturedRetailProducts from "@/components/FeaturedRetailProducts";
-
+ 
 const Page = () => {
-  const [featuredMenuItems, setFeaturedMenuItems] = useState([]);
-  const [retailProducts, setRetailProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchFeaturedItems();
-  }, []);
-
-  const fetchFeaturedItems = async () => {
-    try {
-      const url = process.env.NEXT_PUBLIC_WC_SITE_URL;
-      const consumerKey = process.env.NEXT_PUBLIC_WC_CONSUMER_KEY;
-      const consumerSecret = process.env.NEXT_PUBLIC_WC_CONSUMER_SECRET;
-
-      const credentials = btoa(`${consumerKey}:${consumerSecret}`);
-      
-      // Fetch 3 food menu items (category 27)
-      const menuResponse = await fetch(`${url}/wp-json/wc/v3/products?category=16&per_page=3&featured=true`, {
-        headers: {
-          'Authorization': `Basic ${credentials}`,
-          'Content-Type': 'application/json',
-        },
-        cache: 'no-store',
-      });
-
-      // Fetch 8 retail products (category 26)
-      const retailResponse = await fetch(`${url}/wp-json/wc/v3/products?category=22&per_page=8&orderby=date`, {
-        headers: {
-          'Authorization': `Basic ${credentials}`,
-          'Content-Type': 'application/json',
-        },
-        cache: 'no-store',
-      });
-
-      if (menuResponse.ok) {
-        const menuData = await menuResponse.json();
-        setFeaturedMenuItems(menuData);
-      }
-
-      if (retailResponse.ok) {
-        const retailData = await retailResponse.json();
-        setRetailProducts(retailData);
-      }
-
-      setLoading(false);
-    } catch (err) {
-      console.error('Error fetching featured items:', err);
-      setLoading(false);
-    }
-  };
-
   return (
     <FoodKingLayout>
       {/* Hero Section */}
       <SingleHeroSlide />
-
+ 
       {/* Featured Menu Items Section */}
       <FeaturedMenuItems />
-
+ 
       {/* Delivery CTA Banner */}
       <section className="main-cta-banner-2 section-padding bg-cover"
         style={{
@@ -106,11 +54,10 @@ const Page = () => {
           </div>
         </div>
       </section>
-
+ 
       {/* Featured Retail Products Section */}
       <FeaturedRetailProducts />
-      
-
+ 
       {/* Video Section */}
       <div className="video-section section-padding bg-cover"
         style={{ 
@@ -121,7 +68,7 @@ const Page = () => {
         <div className="container">
           <div className="video-wrapper" style={{ 
             position: 'relative', 
-            paddingBottom: '10%', /* Reduced height */
+            paddingBottom: '10%',
             height: 0,
             overflow: 'hidden',
             maxWidth: '600px',
@@ -146,14 +93,14 @@ const Page = () => {
           </div>
         </div>
       </div>
-
+ 
       {/* Testimonials Section */}
       <ModernTestimonials />
-
+ 
       {/* Newsletter CTA */}
       <NewsletterCTA />
     </FoodKingLayout>
   );
 };
-
+ 
 export default Page;
