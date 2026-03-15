@@ -22,7 +22,7 @@ const Menus = () => {
         <Link href="/">Home</Link>
       </li>
       <li>
-        <a href={process.env.NEXT_PUBLIC_WC_SITE_URL || "https://store.thewanderingrooster.com"}>
+        <a href="https://www.roostershop.store">
           Shop
         </a>
       </li>
