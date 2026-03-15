@@ -184,7 +184,7 @@ const Header2 = () => {
                   </a>
                   
                   <div className="header-button">
-                    <a href="https://your-new-shopify-store.myshopify.com"
+                    <a href="https://www.rostershop.store"
   className="theme-btn bg-transparent"
 >
                       <span className="button-content-wrapper d-flex align-items-center">
