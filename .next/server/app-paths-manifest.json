@@ -1,8 +1,5 @@
 {
-  "/contact/page": "app/contact/page.js",
-  "/news/page": "app/news/page.js",
-  "/testimonial/page": "app/testimonial/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/gallery/page": "app/gallery/page.js",
+  "/food-menu-2/page": "app/food-menu-2/page.js",
+  "/food-menu/page": "app/food-menu/page.js",
   "/page": "app/page.js"
 }

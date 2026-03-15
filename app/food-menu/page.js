@@ -154,9 +154,9 @@ const FoodMenu2 = () => {
     if (name.includes('side')) return 'flaticon-french-fries';
     if (name.includes('starter') || name.includes('appetizer')) return 'flaticon-quality';
     if (name.includes('sandwich') || name.includes('classic')) return 'flaticon-sandwich';
-    if (name.includes('smoothie')) return 'flaticon-coffee';
-    if (name.includes('beverage') || name.includes('drink')) return 'flaticon-soft-drink';
-    if (name.includes('ice') || name.includes('shaved')) return 'flaticon-ice-cream';
+    if (name.includes('fresh')) return 'flaticon-quality';
+    if (name.includes('beverages') || name.includes('drink')) return 'flaticon-quality';
+    if (name.includes('ice') || name.includes('shaved')) return 'flaticon-quality';
     if (name.includes('salad')) return 'flaticon-quality';
     if (name.includes('main') || name.includes('entree')) return 'flaticon-chicken';
     if (name.includes('dessert')) return 'flaticon-ice-cream';

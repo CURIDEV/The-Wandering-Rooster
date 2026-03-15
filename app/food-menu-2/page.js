@@ -12,6 +12,18 @@ const FoodMenu2 = () => {
   // Replace with your SkyTab online ordering URL
   const SKYTAB_URL = "https://your-skytab-ordering-url.com";
 
+  // Manual image mapping for categories
+  // Now just one image per category - the image should have the wave/split design built in
+  const categoryImageMap = {
+    'starters': '/assets/img/menu/video-bg.svg',
+    'smash': '/assets/img/menu/main-cta-bg-2.jpg',  // Update slug to match WordPress
+    'conch': '/assets/img/menu/hero-bg-2.jpg',      // Update slug to match WordPress
+    'fresh': '/assets/img/menu/food-text.avif',     // Update slug to match WordPress
+    'ice': '/assets/img/menu/red_yellow.svg',     // Update slug to match WordPress
+    'sides': '/assets/img/menu/bluepattern.svg',
+    'beverage': '/assets/img/menu/textured.jpeg'
+  };
+
   useEffect(() => {
     fetchMenuItems();
   }, []);
@@ -71,6 +83,18 @@ const FoodMenu2 = () => {
     }
   };
 
+  // Define custom category order by slug
+  // UPDATE THESE to match your actual WordPress category slugs
+  const categoryOrder = [
+    'starters',
+    'smash',  
+    'conch', 
+    'fresh',   
+    'ice',     
+    'sides',         
+    'beverage'
+  ];
+
   // Group items by their categories
   const groupByCategory = () => {
     const grouped = {};
@@ -78,287 +102,290 @@ const FoodMenu2 = () => {
     menuItems.forEach(item => {
       if (item.categories && item.categories.length > 0) {
         item.categories.forEach(cat => {
-          // Skip the main "Food Menu" category (ID 27)
-          if (cat.id !== 27) {
-            if (!grouped[cat.name]) {
-              grouped[cat.name] = {
+          // Skip the main "Food Menu" category (ID 16)
+          if (cat.id !== 16) {
+            if (!grouped[cat.slug]) {
+              grouped[cat.slug] = {
                 id: cat.id,
                 name: cat.name,
+                slug: cat.slug,
+                // Use custom image from map or WooCommerce image or null
+                backgroundImage: categoryImageMap[cat.slug] || (cat.image ? cat.image.src : null),
                 items: []
               };
             }
-            grouped[cat.name].items.push(item);
+            grouped[cat.slug].items.push(item);
           }
         });
       }
     });
 
-    // Convert to array and sort alphabetically
-    return Object.values(grouped).sort((a, b) => a.name.localeCompare(b.name));
+    // Convert to array and sort by custom order
+    const categoriesArray = Object.values(grouped);
+    
+    return categoriesArray.sort((a, b) => {
+      const indexA = categoryOrder.indexOf(a.slug);
+      const indexB = categoryOrder.indexOf(b.slug);
+      
+      // If both are in the order array, sort by position
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      }
+      // If only A is in order array, it comes first
+      if (indexA !== -1) return -1;
+      // If only B is in order array, it comes first
+      if (indexB !== -1) return 1;
+      // Neither in order array, sort alphabetically
+      return a.name.localeCompare(b.name);
+    });
   };
 
   const categories = groupByCategory();
 
-  // Icons for different categories
-  const getCategoryIcon = (categoryName) => {
-    const name = categoryName.toLowerCase();
-    if (name.includes('burger')) return 'flaticon-burger';
-    if (name.includes('side')) return 'flaticon-french-fries';
-    if (name.includes('starter')) return 'flaticon-quality'; // Or could use flaticon-chicken
-    if (name.includes('classic')) return 'flaticon-sandwich';
-    if (name.includes('smoothie')) return 'flaticon-coffee'; // Blender/drink icon
-    if (name.includes('beverage') || name.includes('drink')) return 'flaticon-soft-drink';
-    if (name.includes('ice') || name.includes('shaved')) return 'flaticon-ice-cream';
-    return 'flaticon-fork';
-  };
+  // Temporary debug - check what's being loaded
+  useEffect(() => {
+    if (categories.length > 0) {
+      console.log('=== CATEGORY DEBUG ===');
+      categories.forEach(cat => {
+        console.log(`Category: ${cat.name}`);
+        console.log(`  Slug: ${cat.slug}`);
+        console.log(`  Background: ${cat.backgroundImage}`);
+        console.log(`  Representative: ${cat.representativeImage}`);
+        console.log(`  Has mapping: ${!!categoryImageMap[cat.slug]}`);
+      });
+    }
+  }, [categories]);
 
   return (
     <FoodKingLayout>
       <PageBanner pageName={"Food Menu"} />
 
-      {/* Food Menu Section - One Complete Document */}
-      <section className="fooder-menu-section fix section-padding">
+      {/* Clean Menu Section */}
+      <section className="menu-section" style={{ 
+        padding: '80px 0',
+        backgroundColor: '#f8f9fa'
+      }}>
         <div className="container">
-          {/* Everything in one white container/document */}
-          <div 
-            className="menu-document wow fadeInUp"
-            style={{
-              background: 'white',
-              padding: '50px',
-              borderRadius: '12px',
-              boxShadow: '0 4px 30px rgba(0,0,0,0.1)',
-              border: '3px solid #ff6b35',
-              position: 'relative'
-            }}
-          >
-            {/* Decorative corner elements */}
-            <div style={{
-              position: 'absolute',
-              top: '15px',
-              left: '15px',
-              width: '30px',
-              height: '30px',
-              borderTop: '3px solid #ff6b35',
-              borderLeft: '3px solid #ff6b35'
-            }} />
-            <div style={{
-              position: 'absolute',
-              top: '15px',
-              right: '15px',
-              width: '30px',
-              height: '30px',
-              borderTop: '3px solid #ff6b35',
-              borderRight: '3px solid #ff6b35'
-            }} />
-            <div style={{
-              position: 'absolute',
-              bottom: '15px',
-              left: '15px',
-              width: '30px',
-              height: '30px',
-              borderBottom: '3px solid #ff6b35',
-              borderLeft: '3px solid #ff6b35'
-            }} />
-            <div style={{
-              position: 'absolute',
-              bottom: '15px',
-              right: '15px',
-              width: '30px',
-              height: '30px',
-              borderBottom: '3px solid #ff6b35',
-              borderRight: '3px solid #ff6b35'
-            }} />
-
-            {/* Menu Header */}
-            <div className="menu-header" style={{ textAlign: 'center', marginBottom: '50px' }}>
-              <div style={{ marginBottom: '25px' }}>
-                <img 
-                  src="assets/img/logo/twr_logo.svg" 
-                  alt="The Wandering Rooster"
-                  style={{ 
-                    maxWidth: '250px',
-                    height: 'auto',
-                    margin: '0 auto',
-                    display: 'block'
-                  }}
-                />
-              </div>
-              <div style={{
-                borderTop: '2px solid #ff6b35',
-                borderBottom: '2px solid #ff6b35',
-                padding: '20px 0',
-                margin: '20px auto',
-                maxWidth: '600px'
-              }}>
-                <h2 style={{ 
-                  fontSize: '42px', 
-                  margin: 0,
-                  color: '#333',
-                  fontFamily: 'serif'
-                }}>
-                  Our Menu
-                </h2>
-                <p style={{ 
-                  margin: '10px 0 0',
-                  color: '#666',
-                  fontSize: '16px',
-                  fontStyle: 'italic'
-                }}>
-                  Three Generations of Key West Tradition
-                </p>
-              </div>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '30px',
-                flexWrap: 'wrap',
-                fontSize: '14px',
-                color: '#666'
-              }}>
-                <div>
-                  <i className="fas fa-map-marker-alt" style={{ color: '#ff6b35', marginRight: '8px' }} />
-                  513 Greene St, Key West, FL 33040
-                </div>
-                <div>
-                  <i className="fas fa-phone" style={{ color: '#ff6b35', marginRight: '8px' }} />
-                  (305) 555-1234
-                </div>
-              </div>
-            </div>
-
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            
             {/* Loading/Error States */}
             {loading && (
-            <div className="text-center py-5">
-              <h3>Loading menu...</h3>
-            </div>
-          )}
+              <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                <h3>Loading menu...</h3>
+              </div>
+            )}
 
-          {error && (
-            <div className="alert alert-danger text-center" role="alert">
-              <h4>Error Loading Menu</h4>
-              <p>{error}</p>
-            </div>
-          )}
+            {error && (
+              <div style={{
+                backgroundColor: '#fff',
+                border: '2px solid #dc3545',
+                borderRadius: '8px',
+                padding: '30px',
+                textAlign: 'center',
+                marginBottom: '30px'
+              }}>
+                <h4 style={{ color: '#dc3545', marginBottom: '10px' }}>Error Loading Menu</h4>
+                <p style={{ color: '#666', margin: 0 }}>{error}</p>
+              </div>
+            )}
 
-          {!loading && !error && categories.length === 0 && (
-            <div className="text-center py-5">
-              <h3>No menu items available</h3>
-              <p>Please add items and categories to your Food Menu in WooCommerce.</p>
-            </div>
-          )}
+            {!loading && !error && categories.length === 0 && (
+              <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                <h3>No menu items available</h3>
+                <p>Please add items and categories to your Food Menu in WooCommerce.</p>
+              </div>
+            )}
 
-          {!loading && !error && categories.length > 0 && (
-            <>
-              <div className="fooder-menu-wrapper">
+            {!loading && !error && categories.length > 0 && (
+              <>
                 {categories.map((category, categoryIndex) => (
-                  <div key={category.id} className="category-section mb-5">
-                    {/* Category Header */}
-                    <div 
-                      className="category-header wow fadeInUp"
-                      data-wow-delay={`.${categoryIndex * 2}s`}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '15px',
-                        marginBottom: '30px',
-                        paddingBottom: '15px',
-                        borderBottom: '2px solid #ff6b35'
-                      }}
-                    >
+                  <div 
+                    key={category.id} 
+                    style={{ 
+                      marginBottom: categoryIndex < categories.length - 1 ? '60px' : '40px' 
+                    }}
+                  >
+                    {/* Single Category Header Container */}
+                    <div style={{
+                      position: 'relative',
+                      height: '220px',
+                      marginBottom: '30px',
+                      borderRadius: '12px',
+                      overflow: 'hidden',
+                      backgroundImage: category.backgroundImage 
+                        ? `url(${category.backgroundImage})` 
+                        : 'linear-gradient(135deg, #ff6b35 0%, #f7931e 100%)',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }}>
+                      {/* Optional: Dark overlay if you want text over the image */}
                       <div style={{
-                        width: '50px',
-                        height: '50px',
-                        background: '#ff6b35',
-                        borderRadius: '50%',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0
+                        paddingLeft: '50px'
                       }}>
-                        <i className={getCategoryIcon(category.name)} style={{ color: 'white', fontSize: '24px' }} />
+                        <h2 style={{
+                          fontSize: '44px',
+                          fontWeight: '700',
+                          color: '#fff',
+                          margin: 0,
+                          textShadow: '2px 2px 6px rgba(0,0,0,0.6)',
+                          letterSpacing: '-0.5px'
+                        }}>
+                          {category.name}
+                        </h2>
                       </div>
-                      <h3 style={{ 
-                        margin: 0, 
-                        fontSize: '32px', 
-                        color: '#333',
-                        fontWeight: '700'
-                      }}>
-                        {category.name}
-                      </h3>
                     </div>
 
-                    {/* Category Items */}
-                    <div className="row">
-                      {category.items.map((item, itemIndex) => (
+                    {/* Menu Items Grid */}
+                    <div style={{ 
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fill, minmax(450px, 1fr))',
+                      gap: '16px'
+                    }}>
+                      {category.items.map((item) => (
                         <div
                           key={item.id}
-                          className="col-xl-6 col-lg-6 wow fadeInUp"
-                          data-wow-delay={`.${((itemIndex % 2) * 2 + 3)}s`}
+                          style={{
+                            backgroundColor: '#fff',
+                            border: '1px solid #d1d5db',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            display: 'flex',
+                            gap: '20px',
+                            alignItems: 'flex-start',
+                            transition: 'box-shadow 0.2s ease',
+                            cursor: 'pointer'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.boxShadow = 'none';
+                          }}
                         >
-                          <div className="food-menu-items d-flex align-items-center justify-content-between">
-                            {item.images && item.images.length > 0 && (
-                              <div className="food-menu-image" style={{ 
-                                width: '80px', 
-                                height: '80px', 
-                                marginRight: '20px',
-                                flexShrink: 0,
-                                borderRadius: '8px',
-                                overflow: 'hidden'
+                          {/* Left side: Content */}
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            {/* Title and Price */}
+                            <div style={{ 
+                              display: 'flex', 
+                              alignItems: 'baseline',
+                              gap: '12px',
+                              marginBottom: '8px'
+                            }}>
+                              <h4 style={{
+                                fontSize: '18px',
+                                fontWeight: '600',
+                                color: '#111',
+                                margin: 0,
+                                lineHeight: '1.4'
                               }}>
-                                <img 
-                                  src={item.images[0].src} 
-                                  alt={item.name}
-                                  style={{ 
-                                    width: '100%', 
-                                    height: '100%', 
-                                    objectFit: 'cover' 
-                                  }}
-                                />
-                              </div>
-                            )}
-                            <div className="food-menu-content" style={{ flex: 1 }}>
-                              <h4>{item.name}</h4>
-                              {getCleanDescription(item) && (
-                                <p>{getCleanDescription(item)}</p>
-                              )}
+                                {item.name}
+                              </h4>
+                              <span style={{
+                                fontSize: '18px',
+                                fontWeight: '700',
+                                color: '#111',
+                                whiteSpace: 'nowrap'
+                              }}>
+                                ${parseFloat(item.price).toFixed(2)}
+                              </span>
                             </div>
-                            <h4 className="price" style={{ marginLeft: '15px' }}>
-                              ${parseFloat(item.price).toFixed(2)}
-                            </h4>
+
+                            {/* Description */}
+                            {getCleanDescription(item) && (
+                              <p style={{
+                                fontSize: '14px',
+                                color: '#6b7280',
+                                margin: 0,
+                                lineHeight: '1.6'
+                              }}>
+                                {getCleanDescription(item)}
+                              </p>
+                            )}
                           </div>
+
+                          {/* Right side: Image */}
+                          {item.images && item.images.length > 0 && (
+                            <div style={{
+                              width: '100px',
+                              height: '100px',
+                              flexShrink: 0,
+                              borderRadius: '6px',
+                              overflow: 'hidden'
+                            }}>
+                              <img 
+                                src={item.images[0].src} 
+                                alt={item.name}
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
+                                  objectFit: 'cover'
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
                   </div>
                 ))}
-              </div>
 
-              {/* SkyTab Order Button */}
-              <div className="text-center mt-5 wow fadeInUp" data-wow-delay=".5s">
-                <a 
-                  href={SKYTAB_URL} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="theme-btn"
-                  style={{ fontSize: '18px', padding: '15px 40px' }}
-                >
-                  <span className="button-content-wrapper d-flex align-items-center">
-                    <span className="button-icon">
-                      <i className="flaticon-delivery" />
+                {/* Order CTA */}
+                <div style={{
+                  backgroundColor: '#fff',
+                  border: '2px solid #ff6b35',
+                  borderRadius: '12px',
+                  padding: '40px',
+                  textAlign: 'center',
+                  marginTop: '60px'
+                }}>
+                  <h3 style={{ 
+                    fontSize: '28px',
+                    marginBottom: '20px',
+                    color: '#333'
+                  }}>
+                    Ready to Order?
+                  </h3>
+                  <p style={{
+                    fontSize: '16px',
+                    color: '#666',
+                    marginBottom: '25px'
+                  }}>
+                    Place your order online for pickup or delivery
+                  </p>
+                  <a 
+                    href={SKYTAB_URL} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="theme-btn"
+                    style={{
+                      display: 'inline-block',
+                      fontSize: '18px',
+                      padding: '15px 40px'
+                    }}
+                  >
+                    <span className="button-content-wrapper d-flex align-items-center">
+                      <span className="button-icon">
+                        <i className="flaticon-delivery" />
+                      </span>
+                      <span className="button-text">Order on SkyTab</span>
                     </span>
-                    <span className="button-text">Order Online Now</span>
-                  </span>
-                </a>
-              </div>
-            </>
-          )}
-          
-          </div>{/* End menu-document */}
+                  </a>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </section>
-      {/* Food Menu Section End */}
 
-      {/* Delivery CTA Section */}
+      {/* Optional: Keep your delivery CTA section if you want */}
       <section className="main-cta-banner-2 section-padding bg-cover"
         style={{
           backgroundImage: 'url("assets/img/banner/main-cta-bg-2.jpg")',
