@@ -6,12 +6,12 @@ const featuredMenuItems = [
   {
     id: 1,
     name: "Conch Fritters",
-    image: "/assets/img/menu/conch-fritters.jpg",
+    image: "/assets/img/food/conchfritters.jpeg",
   },
   {
     id: 2,
     name: "Cuban Mix",
-    image: "/assets/img/menu/cuban-mix.jpg",
+    image: "/assets/img/food/cuban-mix.jpg",
   },
   {
     id: 3,
