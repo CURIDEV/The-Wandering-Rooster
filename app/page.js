@@ -7,6 +7,7 @@ import ModernTestimonials from "@/components/ModernTestimonials";
 import FoodKingLayout from "@/layouts/FoodKingLayout";
 import Link from "next/link";
 import FeaturedMenuItems from "@/components/FeaturedMenuItems";
+import FeaturedRetailProducts from "@/components/FeaturedRetailProducts";
 
 const Page = () => {
   const [featuredMenuItems, setFeaturedMenuItems] = useState([]);
@@ -107,79 +108,8 @@ const Page = () => {
       </section>
 
       {/* Featured Retail Products Section */}
-      <section className="food-category-section fix section-padding section-bg">
-        <div className="container">
-          <div className="section-title text-center">
-            <span className="wow fadeInUp">Shop Our Products</span>
-            <h2 className="wow fadeInUp" data-wow-delay=".3s">
-              Featured Retail Items
-            </h2>
-          </div>
-          
-          {loading ? (
-            <div className="text-center py-5"><h4>Loading products...</h4></div>
-          ) : (
-            <>
-              <div className="row">
-                {retailProducts.map((product, index) => (
-                  <div
-                    key={product.id}
-                    className="col-xl-3 col-lg-6 col-md-6 wow fadeInUp"
-                    data-wow-delay={`.${(index % 4) * 2 + 3}s`}
-                  >
-                    <div className="catagory-product-card-2 text-center">
-                      <a href={`https://store.thewanderingrooster.com/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                        <div className="catagory-product-image" style={{ 
-                          borderRadius: '8px 8px 0 0', 
-                          overflow: 'hidden',
-                          backgroundColor: '#f8f8f8',
-                          cursor: 'pointer'
-                        }}>
-                          <img 
-                            src={product.images && product.images.length > 0 
-                              ? product.images[0].src 
-                              : '/assets/img/food/placeholder.png'
-                            } 
-                            alt={product.name}
-                            style={{ 
-                              width: '100%', 
-                              height: '250px', 
-                              objectFit: 'cover',
-                              display: 'block'
-                            }}
-                          />
-                        </div>
-                      </a>
-                      <div className="catagory-product-content">
-                        <div className="catagory-button">
-                          <a href={`https://store.thewanderingrooster.com/product/${product.slug}`} className="theme-btn-2">
-                            <i className="far fa-shopping-basket" />
-                            Shop Now
-                          </a>
-                        </div>
-                        <div className="info-price d-flex align-items-center justify-content-center">
-                          <span>${parseFloat(product.price).toFixed(2)}</span>
-                        </div>
-                        <h4>
-                          <a href={`https://store.thewanderingrooster.com/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                            {product.name}
-                          </a>
-                        </h4>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="text-center mt-5 wow fadeInUp" data-wow-delay=".5s">
-                <Link href="/shop" className="theme-btn">
-                  View All Products
-                </Link>
-              </div>
-            </>
-          )}
-        </div>
-      </section>
+      <FeaturedRetailProducts />
+      
 
       {/* Video Section */}
       <div className="video-section section-padding bg-cover"
