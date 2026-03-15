@@ -11,7 +11,7 @@ const featuredMenuItems = [
   {
     id: 2,
     name: "Cuban Mix",
-    image: "/assets/img/food/cuban-mix.jpg",
+    image: "/assets/img/food/cubanmix.jpeg",
   },
   {
     id: 3,
