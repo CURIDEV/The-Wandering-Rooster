@@ -5,7 +5,7 @@ const retailProducts = [
     id: 1,
     name: "TWR Logo Tee",
     price: "20.00",
-    image: "/assets/img/retail-images/cafoback.png",
+    image: "/assets/img/retail-images/twrback.png",
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const retailProducts = [
     id: 3,
     name: "TWR Hat",
     price: "20.00",
-    image: "/assets/img/retail/twr-hat.jpg",
+    image: "/assets/img/retail-images/totebagbw.png",
   },
 ];
  
