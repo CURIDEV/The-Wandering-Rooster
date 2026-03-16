@@ -15,7 +15,7 @@ const retailProducts = [
   },
   {
     id: 3,
-    name: "TWR Hat",
+    name: "TWR Tote Bag",
     price: "20.00",
     image: "/assets/img/retail-images/totebagbw.png",
   },
