@@ -15,8 +15,8 @@ const featuredMenuItems = [
   },
   {
     id: 3,
-    name: "Tater Tots",
-    image: "/assets/img/food/tots.jpeg",
+    name: "Onion Smash",
+    image: "/assets/img/food/onionsmashtots.png",
   },
 ];
  

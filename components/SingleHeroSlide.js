@@ -7,7 +7,8 @@ export const SingleHeroSlide = () => {
   
   return (
     <section className="hero-section">
-      <div className="hero-2 bg-contain" style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("assets/img/hero/twr_old.jpg")' }}>
+      <div className="hero-2 bg-contain" style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("assets/img/hero/twr_old.jpg")',
+       }}>
         <div className="left-shape" data-animation="fadeInUp" data-duration={duration} data-delay="2.2s">
           <img src="assets/img/hero/left-shape.png" alt="shape-img" />
         </div>
@@ -46,7 +47,7 @@ export const SingleHeroSlide = () => {
             <div className="col-xl-6 col-lg-6 mt-5 mt-lg-0">
               <div className="burger-image" data-animation="fadeInUp" data-duration={duration} data-delay="1.4s">
                 <img 
-                  src="assets/img/hero/burger.png" 
+                  src="assets/img/hero/duvalsmash.png" 
                   alt="smash-burger"
                   style={{
                     maxWidth: '550px',
