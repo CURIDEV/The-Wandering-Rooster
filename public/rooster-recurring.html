@@ -76,8 +76,8 @@
   <div class="af">
     <div class="fg"><label>Description</label><input type="text" id="fd" placeholder="e.g. Rent – 513 Greene St"></div>
     <div class="fg"><label>Amount</label><input type="number" id="fa" placeholder="2400.00" step="0.01" min="0"></div>
-    <div class="fg"><label>Frequency</label><select id="ff"><option>Monthly</option><option>Weekly</option><option>Biweekly</option><option>Quarterly</option><option>Annual</option></select></div>
-    <div class="fg"><label>Day / Due Date</label><input type="number" id="fdy" placeholder="1" min="1" max="31"></div>
+    <div class="fg"><label>Frequency</label><select id="ff" onchange="updateDueInput()"><option>Monthly</option><option>Weekly</option><option>Biweekly</option><option>Quarterly</option><option>Annual</option></select></div>
+    <div class="fg"><label id="fdyl">Day of Month</label><div id="fdy-wrap"></div></div>
     <button class="btn-add" onclick="addItem()">+ Add</button>
   </div>
   <div class="tabs">
@@ -101,18 +101,97 @@ async function dbDel(t,f){const r=await fetch(`${SU}/rest/v1/${t}?${f}`,{method:
 function ss(st,msg){const e=document.getElementById('ss');e.className='sync '+st;e.textContent=msg;}
 let items=[],af='All';
 function fmt(n){return'$'+Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
-function nextDue(item){const today=new Date();today.setHours(0,0,0,0);const day=item.day_num||1;if(item.freq==='Monthly'){let d=new Date(today.getFullYear(),today.getMonth(),day);if(d<=today)d=new Date(today.getFullYear(),today.getMonth()+1,day);return d;}if(item.freq==='Weekly'){let d=new Date(today);d.setDate(today.getDate()+((day-today.getDay()+7)%7||7));return d;}if(item.freq==='Biweekly'){let d=new Date(today);d.setDate(today.getDate()+((day-today.getDay()+14)%14||14));return d;}if(item.freq==='Quarterly'){let d=new Date(today.getFullYear(),today.getMonth(),day);while(d<=today)d=new Date(d.getFullYear(),d.getMonth()+3,day);return d;}if(item.freq==='Annual'){let d=new Date(today.getFullYear(),today.getMonth(),day);if(d<=today)d=new Date(today.getFullYear()+1,today.getMonth(),day);return d;}return new Date(today.getFullYear(),today.getMonth(),day);}
+function nextDue(item) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const day = item.day_num || 1;
+  // Quarterly / Annual use a stored due_date and roll forward
+  if ((item.freq === 'Quarterly' || item.freq === 'Annual') && item.due_date) {
+    let d = new Date(item.due_date + 'T12:00:00');
+    if (d <= today) {
+      if (item.freq === 'Annual')    d.setFullYear(d.getFullYear() + 1);
+      if (item.freq === 'Quarterly') d.setMonth(d.getMonth() + 3);
+    }
+    return d;
+  }
+  if (item.freq === 'Monthly') {
+    let d = new Date(today.getFullYear(), today.getMonth(), day);
+    if (d <= today) d = new Date(today.getFullYear(), today.getMonth() + 1, day);
+    return d;
+  }
+  if (item.freq === 'Weekly') {
+    let d = new Date(today);
+    d.setDate(today.getDate() + ((day - today.getDay() + 7) % 7 || 7));
+    return d;
+  }
+  if (item.freq === 'Biweekly') {
+    let d = new Date(today);
+    d.setDate(today.getDate() + ((day - today.getDay() + 14) % 14 || 14));
+    return d;
+  }
+  return new Date(today.getFullYear(), today.getMonth(), day);
+}
 function daysUntil(d){const today=new Date();today.setHours(0,0,0,0);return Math.round((d-today)/86400000);}
 function fmtDate(d){return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});}
 function monthlyAmt(item){const m={Monthly:1,Weekly:4.33,Biweekly:2.17,Quarterly:1/3,Annual:1/12};return item.amt*(m[item.freq]||1);}
-async function addItem(){const desc=document.getElementById('fd').value.trim();const amt=parseFloat(document.getElementById('fa').value);const freq=document.getElementById('ff').value;const day=parseInt(document.getElementById('fdy').value)||1;if(!desc||isNaN(amt)||amt<=0){document.getElementById('fd').style.borderColor='var(--red)';setTimeout(()=>document.getElementById('fd').style.borderColor='',1200);return;}ss('busy','⟳ Saving...');try{const row={id:Date.now(),description:desc,amt,freq,day_num:day};const saved=await dbIns('recurring_items',[row]);items.push(saved&&saved[0]?saved[0]:row);items.sort((a,b)=>nextDue(a)-nextDue(b));document.getElementById('fd').value='';document.getElementById('fa').value='';document.getElementById('fdy').value='';render();ss('ok','✓ Synced');}catch(e){ss('err','✗ Sync error');console.error(e);}}
+// Returns {day_num, due_date} depending on frequency
+function getDueValue() {
+  const freq = document.getElementById('ff').value;
+  if (freq === 'Monthly') {
+    return { day_num: parseInt(document.getElementById('fdy-num').value) || 1, due_date: null };
+  }
+  if (freq === 'Weekly' || freq === 'Biweekly') {
+    return { day_num: parseInt(document.getElementById('fdy-dow').value), due_date: null };
+  }
+  // Quarterly / Annual — full date
+  return { day_num: null, due_date: document.getElementById('fdy-date').value || null };
+}
+
+function updateDueInput() {
+  const freq = document.getElementById('ff').value;
+  const wrap = document.getElementById('fdy-wrap');
+  const lbl  = document.getElementById('fdyl');
+  const base = 'background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font);font-size:0.9rem;padding:9px 12px;outline:none;width:100%;';
+  if (freq === 'Monthly') {
+    lbl.textContent = 'Day of Month';
+    wrap.innerHTML = `<input type="number" id="fdy-num" placeholder="1" min="1" max="31" style="${base}">`;
+  } else if (freq === 'Weekly' || freq === 'Biweekly') {
+    lbl.textContent = 'Day of Week';
+    wrap.innerHTML = `<select id="fdy-dow" style="${base}"><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option></select>`;
+  } else {
+    lbl.textContent = freq === 'Annual' ? 'Next Due Date' : 'Next Due Date';
+    wrap.innerHTML = `<input type="date" id="fdy-date" style="${base};color-scheme:dark;">`;
+  }
+}
+
+async function addItem() {
+  const desc = document.getElementById('fd').value.trim();
+  const amt  = parseFloat(document.getElementById('fa').value);
+  const freq = document.getElementById('ff').value;
+  const {day_num, due_date} = getDueValue();
+  if (!desc || isNaN(amt) || amt <= 0) {
+    document.getElementById('fd').style.borderColor = 'var(--red)';
+    setTimeout(() => document.getElementById('fd').style.borderColor = '', 1200);
+    return;
+  }
+  ss('busy','⟳ Saving...');
+  try {
+    const row = {id: Date.now(), description: desc, amt, freq, day_num: day_num||null, due_date: due_date||null};
+    const saved = await dbIns('recurring_items', [row]);
+    items.push(saved && saved[0] ? saved[0] : row);
+    items.sort((a,b) => nextDue(a) - nextDue(b));
+    document.getElementById('fd').value = '';
+    document.getElementById('fa').value = '';
+    render();
+    ss('ok','✓ Synced');
+  } catch(e) { ss('err','✗ Sync error'); console.error(e); }
+}
 async function del(id){ss('busy','⟳ Saving...');try{await dbDel('recurring_items',`id=eq.${id}`);items=items.filter(i=>i.id!==id);render();ss('ok','✓ Synced');}catch(e){ss('err','✗ Sync error');console.error(e);}}
 function setFilter(f,el){af=f;document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderList();}
 function renderSummary(){const today=new Date();today.setHours(0,0,0,0);const in7=new Date(today);in7.setDate(today.getDate()+7);const in30=new Date(today);in30.setDate(today.getDate()+30);document.getElementById('sm').textContent=fmt(items.reduce((s,i)=>s+monthlyAmt(i),0));document.getElementById('sw').textContent=fmt(items.filter(i=>nextDue(i)<=in7).reduce((s,i)=>s+i.amt,0));document.getElementById('s30').textContent=fmt(items.filter(i=>nextDue(i)<=in30).reduce((s,i)=>s+i.amt,0));const urgent=items.map(i=>({...i,due:nextDue(i),days:daysUntil(nextDue(i))})).filter(i=>i.days<=7).sort((a,b)=>a.days-b.days);const db=document.getElementById('db');const dl=document.getElementById('dl');if(urgent.length){db.classList.add('on');dl.innerHTML=urgent.map(i=>`<li>${i.description} — ${i.days===0?'Today':i.days===1?'Tomorrow':'In '+i.days+' days'}<span>${fmt(i.amt)}</span></li>`).join('');}else{db.classList.remove('on');}}
 const FC={Monthly:'fM',Weekly:'fW',Biweekly:'fB',Quarterly:'fQ',Annual:'fA'};
 function renderList(){const list=document.getElementById('rl');const filtered=af==='All'?items:items.filter(i=>i.freq===af);if(!filtered.length){list.innerHTML='<div class="empty">No recurring expenses yet.</div>';return;}list.innerHTML=filtered.map(item=>{const due=nextDue(item);const days=daysUntil(due);const dc=days<=3?'urgent':days<=7?'soon':'';const dl=days===0?'Today':days===1?'Tomorrow':fmtDate(due);return`<div class="ri"><div class="rn">${item.description}</div><div><span class="rf ${FC[item.freq]||'fM'}">${item.freq}</span></div><div class="rd2 ${dc}">${dl}</div><div class="ra">${fmt(item.amt)}</div><button class="bd" onclick="del(${item.id})">✕</button></div>`;}).join('');}
 function render(){renderSummary();renderList();}
-async function init(){ss('busy','⟳ Connecting...');try{const data=await dbGet('recurring_items','order=id.asc');items=data||[];render();ss('ok','✓ Synced');}catch(e){ss('err','✗ Connection failed');console.error(e);}document.getElementById('fa').addEventListener('keydown',e=>{if(e.key==='Enter')addItem();});document.getElementById('fd').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('fa').focus();});}
+async function init(){ss('busy','⟳ Connecting...');try{const data=await dbGet('recurring_items','order=id.asc');items=data||[];render();ss('ok','✓ Synced');}catch(e){ss('err','✗ Connection failed');console.error(e);}updateDueInput();document.getElementById('fa').addEventListener('keydown',e=>{if(e.key==='Enter')addItem();});document.getElementById('fd').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('fa').focus();});}
 document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
