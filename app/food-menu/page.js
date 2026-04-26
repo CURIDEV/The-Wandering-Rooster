@@ -1,151 +1,187 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import PageBanner from "@/components/PageBanner";
 import FoodKingLayout from "@/layouts/FoodKingLayout";
 import Cta from "@/components/Cta";
 
-const FoodMenu2 = () => {
-  const [menuItems, setMenuItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+// Hardcoded menu data - replace with Sanity later
+const MENU_DATA = [
+  {
+    name: 'Sunset Starters',
+    items: [
+      {
+        id: 1,
+        name: 'Conch Fritters',
+        description: 'Crispy on the outside, tender inside—our conch fritters are packed with fresh herbs, and island spices. They’re a true taste of the Keys in every bite. Bold, savory, and full of coastal flavor.',
+        price: 15.00,
+        image: null, // or '/assets/img/menu/conch-fritters.jpg'
+      },
 
+      {
+        id: 2,
+        name: 'Loaded Tater Tots',
+        description: 'Crispy golden tots smothered in tender smoked pork and rich BBQ sauce. The crunch hits first, then the smoke, then that sweet tangy kick. Comfort food cranked up to island level.',
+        price: 12.00,
+        image: null,
+      },
+
+      {
+        id: 3,
+        name: 'Smoked Chiken Wings',
+        description: 'Slow-smoked over real wood until the meat falls right off the bone. Deep, rich smoke flavor with crispy edges and tender, juicy centers. Wings the way they are meant to be done.',
+        price: 12.00,
+        image: null,
+      },
+    ],
+  },
+  {
+    name: 'Smash Burgers',
+    items: [
+      {
+        id: 10,
+        name: 'Duval Street Smash',
+        description: 'Double Smash Patty with American cheese, Mustard, Diced Onions and Pickles on a Lightly Toasted Potato Bun.',
+        price: 16.00,
+        image: null,
+      },
+      {
+        id: 11,
+        name: 'Onion Smash',
+        description: 'Double Smash Patty with American Cheese, Grilled Onions & Our Signature Rooster Sauce on a Lightly Toasted Potato Bun.',
+        price: 16.00,
+        image: null,
+      },
+
+      {
+        id: 12,
+        name: 'Rooster Smash',
+        description: 'Double Smash Patty featuring our own Signature Cock Sauce & American Cheese. It’s a Must-Try for Burger Lovers Craving a Taste of the Island.',
+        price: 16.00,
+        image: null,
+      },
+
+      {
+        id: 13,
+        name: 'Smash Hamburger',
+        description: 'Our signature juicy single smash burger, cooked to perfection and built your way. Choose your favorite toppings and create the perfect bite every time.',
+        price: 13.00,
+        image: null,
+      },
+
+      {
+        id: 14,
+        name: 'Smash Cheeseburger',
+        description: 'Our signature juicy single smash burger with American Cheese, cooked to perfection and built your way. Choose your favorite toppings and create the perfect bite every time.',
+        price: 13.00,
+        image: null,
+      },
+    ],
+  },
+  {
+    name: 'Sandwiches',
+    items: [
+      {
+        id: 20,
+        name: 'Cuban Sandwich',
+        description: 'Slow-smoked pork, sliced ham, and melted Swiss layered on toasted Cuban bread with mustard, crisp lettuce, and tangy pickles. Pressed until golden and crackling on the outside, warm and savory inside. A Key West classic, done our way.',
+        price: 15.00,
+        image: null,
+      },
+
+      {
+        id: 21,
+        name: 'Pulled Pork Sandwich',
+        description: 'Piled-high pulled pork smoked low and slow, finished with rich BBQ sauce and a crisp mango slaw on a soft potato bun. Tender meat, tangy sauce, sweet heat from the slaw—comfort food with island soul.',
+        price: 12.00,
+        image: null,
+      },
+    ],
+  },
+  {
+    name: 'Sides',
+    items: [
+      {
+        id: 30,
+        name: 'Tater Tots',
+        description: 'Crispy, golden bite-size potatoes fried to perfection. Crunchy outside, fluffy inside. Served hot and salted just right.',
+        price: 4.00,
+        image: null,
+      },
+
+      {
+        id: 31,
+        name: 'Hand Cut Chips',
+        description: 'Fresh hand-cut potatoes fried until perfectly crisp and lightly salted. Thin, crunchy, and made to order.',
+        price: 4.00,
+        image: null,
+      },
+
+      {
+        id: 32,
+        name: 'Mango Slaw',
+        description: 'Served with chipotle aioli',
+        price: 6.00,
+        image: null,
+      },
+    ],
+  },
+  {
+    name: 'Beverages',
+    items: [
+      {
+        id: 40,
+        name: 'Key West Lemonade',
+        description: 'Fresh-squeezed with a Key West twist',
+        price: 4.00,
+        image: null,
+      },
+
+      {
+        id: 41,
+        name: 'Fresh Sweet Tea',
+        description: 'Fresh-squeezed with a Key West twist',
+        price: 4.00,
+        image: null,
+      },
+
+{
+        id: 42,
+        name: 'Coca-Cola',
+        description: 'Fresh-squeezed with a Key West twist',
+        price: 4.00,
+        image: null,
+      },
+
+      {
+        id: 43,
+        name: 'Sprite',
+        description: 'Fresh-squeezed with a Key West twist',
+        price: 4.00,
+        image: null,
+      },
+
+      {
+        id: 44,
+        name: 'Diet Coke',
+        description: 'Fresh-squeezed with a Key West twist',
+        price: 4.00,
+        image: null,
+      },
+
+        {
+        id: 45,
+        name: 'Bottled Water',
+        description: 'Fresh-squeezed with a Key West twist',
+        price: 4.00,
+        image: null,
+      },
+    ],
+  },
+];
+
+const FoodMenu2 = () => {
   // Replace with your SkyTab online ordering URL
   const SKYTAB_URL = "https://your-skytab-ordering-url.com";
-
-  // Define your custom department order here
-  const DEPARTMENT_ORDER = [
-    'Starters',
-    'Smash Burgers', 
-    'Conch Classics',
-    'Island Fresh',
-    'Shaved Ice',
-    'Sunset Sides',
-    'Beverages',
-    'Sides',
-    'Side Orders',
-    'Desserts',
-    'Beverages',
-    'Drinks',
-    'Smoothies',
-    'Ice Cream',
-    'Shaved Ice'
-  ];
-
-  useEffect(() => {
-    fetchMenuItems();
-  }, []);
-
-  // Helper function to strip HTML and get clean text
-  const getCleanDescription = (item) => {
-    if (item.short_description && item.short_description.trim()) {
-      const temp = document.createElement('div');
-      temp.innerHTML = item.short_description;
-      const text = temp.textContent || temp.innerText || '';
-      return text.trim();
-    }
-    
-    if (item.description && item.description.trim()) {
-      const temp = document.createElement('div');
-      temp.innerHTML = item.description;
-      const text = temp.textContent || temp.innerText || '';
-      return text.trim().substring(0, 150) + (text.length > 150 ? '...' : '');
-    }
-    
-    return '';
-  };
-
-  const fetchMenuItems = async () => {
-    try {
-      const url = process.env.NEXT_PUBLIC_WC_SITE_URL;
-      const consumerKey = process.env.NEXT_PUBLIC_WC_CONSUMER_KEY;
-      const consumerSecret = process.env.NEXT_PUBLIC_WC_CONSUMER_SECRET;
-
-      if (!url || !consumerKey || !consumerSecret) {
-        throw new Error('Missing WooCommerce API credentials');
-      }
-
-      const credentials = btoa(`${consumerKey}:${consumerSecret}`);
-      
-      // Fetch products from Food Menu category (ID: 16)
-      const response = await fetch(`${url}/wp-json/wc/v3/products?category=16&per_page=100`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Basic ${credentials}`,
-          'Content-Type': 'application/json',
-        },
-        cache: 'no-store',
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch menu items: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setMenuItems(data);
-      setLoading(false);
-    } catch (err) {
-      console.error('Error fetching menu items:', err);
-      setError(err.message || 'Failed to load menu items');
-      setLoading(false);
-    }
-  };
-
-  // Group items by their categories with custom ordering
-  const groupByCategory = () => {
-    const grouped = {};
-    
-    menuItems.forEach(item => {
-      if (item.categories && item.categories.length > 0) {
-        item.categories.forEach(cat => {
-          // Skip the main "Food Menu" category (ID 16)
-          if (cat.id !== 16) {
-            if (!grouped[cat.name]) {
-              grouped[cat.name] = {
-                id: cat.id,
-                name: cat.name,
-                items: []
-              };
-            }
-            grouped[cat.name].items.push(item);
-          }
-        });
-      }
-    });
-
-    // Convert to array
-    const categoriesArray = Object.values(grouped);
-
-    // Sort by custom department order
-    categoriesArray.sort((a, b) => {
-      const indexA = DEPARTMENT_ORDER.findIndex(dept => 
-        a.name.toLowerCase().includes(dept.toLowerCase()) || 
-        dept.toLowerCase().includes(a.name.toLowerCase())
-      );
-      const indexB = DEPARTMENT_ORDER.findIndex(dept => 
-        b.name.toLowerCase().includes(dept.toLowerCase()) || 
-        dept.toLowerCase().includes(b.name.toLowerCase())
-      );
-
-      // If both found in order list, sort by their position
-      if (indexA !== -1 && indexB !== -1) {
-        return indexA - indexB;
-      }
-      
-      // If only A is in the list, it comes first
-      if (indexA !== -1) return -1;
-      
-      // If only B is in the list, it comes first
-      if (indexB !== -1) return 1;
-      
-      // If neither is in the list, sort alphabetically
-      return a.name.localeCompare(b.name);
-    });
-
-    return categoriesArray;
-  };
-
-  const categories = groupByCategory();
 
   // Icons for different categories
   const getCategoryIcon = (categoryName) => {
@@ -170,7 +206,6 @@ const FoodMenu2 = () => {
       {/* Food Menu Section - One Complete Document */}
       <section className="fooder-menu-section fix section-padding">
         <div className="container">
-          {/* Everything in one white container/document */}
           <div 
             className="menu-document wow fadeInUp"
             style={{
@@ -183,42 +218,10 @@ const FoodMenu2 = () => {
             }}
           >
             {/* Decorative corner elements */}
-            <div style={{
-              position: 'absolute',
-              top: '15px',
-              left: '15px',
-              width: '30px',
-              height: '30px',
-              borderTop: '3px solid #ff6b35',
-              borderLeft: '3px solid #ff6b35'
-            }} />
-            <div style={{
-              position: 'absolute',
-              top: '15px',
-              right: '15px',
-              width: '30px',
-              height: '30px',
-              borderTop: '3px solid #ff6b35',
-              borderRight: '3px solid #ff6b35'
-            }} />
-            <div style={{
-              position: 'absolute',
-              bottom: '15px',
-              left: '15px',
-              width: '30px',
-              height: '30px',
-              borderBottom: '3px solid #ff6b35',
-              borderLeft: '3px solid #ff6b35'
-            }} />
-            <div style={{
-              position: 'absolute',
-              bottom: '15px',
-              right: '15px',
-              width: '30px',
-              height: '30px',
-              borderBottom: '3px solid #ff6b35',
-              borderRight: '3px solid #ff6b35'
-            }} />
+            <div style={{ position: 'absolute', top: '15px', left: '15px', width: '30px', height: '30px', borderTop: '3px solid #ff6b35', borderLeft: '3px solid #ff6b35' }} />
+            <div style={{ position: 'absolute', top: '15px', right: '15px', width: '30px', height: '30px', borderTop: '3px solid #ff6b35', borderRight: '3px solid #ff6b35' }} />
+            <div style={{ position: 'absolute', bottom: '15px', left: '15px', width: '30px', height: '30px', borderBottom: '3px solid #ff6b35', borderLeft: '3px solid #ff6b35' }} />
+            <div style={{ position: 'absolute', bottom: '15px', right: '15px', width: '30px', height: '30px', borderBottom: '3px solid #ff6b35', borderRight: '3px solid #ff6b35' }} />
 
             {/* Menu Header */}
             <div className="menu-header" style={{ textAlign: 'center', marginBottom: '50px' }}>
@@ -226,12 +229,7 @@ const FoodMenu2 = () => {
                 <img 
                   src="assets/img/logo/twr_logo.svg" 
                   alt="The Wandering Rooster"
-                  style={{ 
-                    maxWidth: '250px',
-                    height: 'auto',
-                    margin: '0 auto',
-                    display: 'block'
-                  }}
+                  style={{ maxWidth: '250px', height: 'auto', margin: '0 auto', display: 'block' }}
                 />
               </div>
               <div style={{
@@ -241,20 +239,10 @@ const FoodMenu2 = () => {
                 margin: '20px auto',
                 maxWidth: '600px'
               }}>
-                <h2 style={{ 
-                  fontSize: '42px', 
-                  margin: 0,
-                  color: '#333',
-                  fontFamily: 'serif'
-                }}>
+                <h2 style={{ fontSize: '42px', margin: 0, color: '#333', fontFamily: 'serif' }}>
                   Our Menu
                 </h2>
-                <p style={{ 
-                  margin: '10px 0 0',
-                  color: '#666',
-                  fontSize: '16px',
-                  fontStyle: 'italic'
-                }}>
+                <p style={{ margin: '10px 0 0', color: '#666', fontSize: '16px', fontStyle: 'italic' }}>
                   Three Generations of Key West Tradition
                 </p>
               </div>
@@ -277,137 +265,100 @@ const FoodMenu2 = () => {
               </div>
             </div>
 
-            {/* Loading/Error States */}
-            {loading && (
-            <div className="text-center py-5">
-              <h3>Loading menu...</h3>
-            </div>
-          )}
-
-          {error && (
-            <div className="alert alert-danger text-center" role="alert">
-              <h4>Error Loading Menu</h4>
-              <p>{error}</p>
-            </div>
-          )}
-
-          {!loading && !error && categories.length === 0 && (
-            <div className="text-center py-5">
-              <h3>No menu items available</h3>
-              <p>Please add items and categories to your Food Menu in WooCommerce.</p>
-            </div>
-          )}
-
-          {!loading && !error && categories.length > 0 && (
-            <>
-              <div className="fooder-menu-wrapper">
-                {categories.map((category, categoryIndex) => (
-                  <div key={category.id} className="category-section mb-5">
-                    {/* Category Header */}
-                    <div 
-                      className="category-header wow fadeInUp"
-                      data-wow-delay={`.${categoryIndex * 2}s`}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '15px',
-                        marginBottom: '30px',
-                        paddingBottom: '15px',
-                        borderBottom: '2px solid #ff6b35'
-                      }}
-                    >
-                      <div style={{
-                        width: '50px',
-                        height: '50px',
-                        background: '#ff6b35',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0
-                      }}>
-                        <i className={getCategoryIcon(category.name)} style={{ color: 'white', fontSize: '24px' }} />
-                      </div>
-                      <h3 style={{ 
-                        margin: 0, 
-                        fontSize: '32px', 
-                        color: '#333',
-                        fontWeight: '700'
-                      }}>
-                        {category.name}
-                      </h3>
+            <div className="fooder-menu-wrapper">
+              {MENU_DATA.map((category, categoryIndex) => (
+                <div key={category.name} className="category-section mb-5">
+                  {/* Category Header */}
+                  <div 
+                    className="category-header wow fadeInUp"
+                    data-wow-delay={`.${categoryIndex * 2}s`}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '15px',
+                      marginBottom: '30px',
+                      paddingBottom: '15px',
+                      borderBottom: '2px solid #ff6b35'
+                    }}
+                  >
+                    <div style={{
+                      width: '50px',
+                      height: '50px',
+                      background: '#ff6b35',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}>
+                      <i className={getCategoryIcon(category.name)} style={{ color: 'white', fontSize: '24px' }} />
                     </div>
-
-                    {/* Category Items */}
-                    <div className="row">
-                      {category.items.map((item, itemIndex) => (
-                        <div
-                          key={item.id}
-                          className="col-xl-6 col-lg-6 wow fadeInUp"
-                          data-wow-delay={`.${((itemIndex % 2) * 2 + 3)}s`}
-                        >
-                          <div className="food-menu-items d-flex align-items-center justify-content-between">
-                            {item.images && item.images.length > 0 && (
-                              <div className="food-menu-image" style={{ 
-                                width: '80px', 
-                                height: '80px', 
-                                marginRight: '20px',
-                                flexShrink: 0,
-                                borderRadius: '8px',
-                                overflow: 'hidden'
-                              }}>
-                                <img 
-                                  src={item.images[0].src} 
-                                  alt={item.name}
-                                  style={{ 
-                                    width: '100%', 
-                                    height: '100%', 
-                                    objectFit: 'cover' 
-                                  }}
-                                />
-                              </div>
-                            )}
-                            <div className="food-menu-content" style={{ flex: 1 }}>
-                              <h4>{item.name}</h4>
-                              {getCleanDescription(item) && (
-                                <p>{getCleanDescription(item)}</p>
-                              )}
-                            </div>
-                            <h4 className="price" style={{ marginLeft: '15px' }}>
-                              ${parseFloat(item.price).toFixed(2)}
-                            </h4>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    <h3 style={{ margin: 0, fontSize: '32px', color: '#333', fontWeight: '700' }}>
+                      {category.name}
+                    </h3>
                   </div>
-                ))}
-              </div>
 
-              {/* SkyTab Order Button */}
-              <div className="text-center mt-5 wow fadeInUp" data-wow-delay=".5s">
-                <a 
-                  href={SKYTAB_URL} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="theme-btn"
-                  style={{ fontSize: '18px', padding: '15px 40px' }}
-                >
-                  <span className="button-content-wrapper d-flex align-items-center">
-                    <span className="button-icon">
-                      <i className="flaticon-delivery" />
-                    </span>
-                    <span className="button-text">Order Online Now</span>
+                  {/* Category Items */}
+                  <div className="row">
+                    {category.items.map((item, itemIndex) => (
+                      <div
+                        key={item.id}
+                        className="col-xl-6 col-lg-6 wow fadeInUp"
+                        data-wow-delay={`.${((itemIndex % 2) * 2 + 3)}s`}
+                      >
+                        <div className="food-menu-items d-flex align-items-start justify-content-between">
+                          {item.image && (
+                            <div style={{ 
+                              width: '80px', 
+                              height: '80px', 
+                              marginRight: '20px',
+                              flexShrink: 0,
+                              borderRadius: '8px',
+                              overflow: 'hidden'
+                            }}>
+                              <img 
+                                src={item.image} 
+                                alt={item.name}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                              />
+                            </div>
+                          )}
+                          <div className="food-menu-content" style={{ flex: 1 }}>
+                            <h4>{item.name}</h4>
+                            {item.description && <p>{item.description}</p>}
+                          </div>
+                          <h4 className="price" style={{ marginLeft: '15px' }}>
+                            ${item.price.toFixed(2)}
+                          </h4>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* SkyTab Order Button */}
+            <div className="text-center mt-5 wow fadeInUp" data-wow-delay=".5s">
+              <a 
+                href="https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="theme-btn"
+                style={{ fontSize: '18px', padding: '15px 40px' }}
+              >
+                <span className="button-content-wrapper d-flex align-items-center">
+                  <span className="button-icon">
+                    <i className="flaticon-delivery" />
                   </span>
-                </a>
-              </div>
-            </>
-          )}
-          
+                  <span className="button-text">Order Online Now</span>
+                </span>
+              </a>
+            </div>
+
           </div>{/* End menu-document */}
         </div>
       </section>
-      {/* Food Menu Section End */}
       <Cta />
     </FoodKingLayout>
   );

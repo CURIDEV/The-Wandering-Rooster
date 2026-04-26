@@ -110,7 +110,7 @@ const AboutPage = () => {
                         }}>
                           <i className="fas fa-star" style={{ color: 'white', fontSize: '24px' }} />
                         </div>
-                        <h3 style={{ fontSize: '32px', color: '#ff6b35', marginBottom: '5px' }}>100+</h3>
+                        <h3 style={{ fontSize: '32px', color: '#ff6b35', marginBottom: '5px' }}>200+</h3>
                         <p style={{ margin: 0, color: '#666' }}>Five-Star Reviews</p>
                       </div>
                     </div>

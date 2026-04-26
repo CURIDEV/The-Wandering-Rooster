@@ -22,16 +22,14 @@ const Menus = () => {
         <Link href="/">Home</Link>
       </li>
       <li>
-        <a href="https://www.roostershop.store">
+        <a href="https://www.roostershop.store" target="_blank" rel="noopener noreferrer">
           Shop
         </a>
       </li>
       <li>
         <Link href="/food-menu">Menu</Link>
       </li>
-      <li>
-        <Link href="/news">Blog</Link>
-      </li>
+      
       <li className="has-dropdown">
         <Link href="/about">
           About Us
@@ -46,10 +44,7 @@ const Menus = () => {
           </li>
           <li>
             <Link href="/testimonial">Testimonials</Link>
-          </li>
-          <li>
-            <Link href="/food-menu-2">Menu2</Link>
-          </li>
+          </li>          
         </ul>
       </li>
       <li>
@@ -72,28 +67,28 @@ const Header1 = () => {
                 </li>
                 <li>
                   <i className="fas fa-truck" />
-                  Order Now 
+                  513 Greene Street, Key West, FL 33040
                 </li>
               </ul>
               <div className="top-right">
                 <div className="search-wrp">
                   <button>
-                    <i className="far fa-search" />
+                    <i className="far fa-phone" />
                   </button>
-                  <input placeholder="Search" aria-label="Search" />
+                  <input placeholder="954-760-0555" aria-label="search" />
                 </div>
                 <div className="social-icon d-flex align-items-center">
-                  <a href="#">
+                  <a href="https://www.facebook.com/p/The-Wandering-Rooster-61579850699163/" target="_blank" rel="noopener noreferrer">
                     <i className="fab fa-facebook-f" />
                   </a>
-                  <a href="#">
-                    <i className="fab fa-twitter" />
+                  <a href="https://www.instagram.com/thewanderingrooster/" target="_blank" rel="noopener noreferrer">
+                    <i className="fab fa-instagram" />
                   </a>
-                  <a href="#">
-                    <i className="fab fa-vimeo-v" />
+                  <a href="https://www.google.com/search?q=the+wandering+rooster+google+business+profile&oq=the&gs_lcrp=EgZjaHJvbWUqBggBEEUYOzIGCAAQRRg8MgYIARBFGDsyDggCEEUYJxg7GIAEGIoFMhUIAxAuGCcYrwEYxwEYgAQYigUYjgUyBggEEEUYOTIGCAUQRRg8MgYIBhBFGD0yBggHEEUYQdIBCDM0MzlqMGo0qAIAsAIB&sourceid=chrome&ie=UTF-8" target="_blank" rel="noopener noreferrer">
+                    <i className="fab fa-google" />
                   </a>
-                  <a href="#">
-                    <i className="fab fa-pinterest-p" />
+                  <a href="https://www.yelp.com/biz/the-wandering-rooster-key-west" target="_blank" rel="noopener noreferrer">
+                    <i className="fab fa-yelp"  />
                   </a>
                 </div>
               </div>
@@ -120,7 +115,7 @@ const Header1 = () => {
                 </div>
                 <div className="header-right d-flex justify-content-end align-items-center">
                   <div className="header-button">
-                    <Link href="/contact" className="theme-btn bg-red-2">
+                    <Link href="https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings"  target="_blank" className="theme-btn bg-red-2">
                       WE DELIVER 
                     </Link>
                   </div>
@@ -184,7 +179,7 @@ const Header2 = () => {
                   </a>
                   
                   <div className="header-button">
-                    <a href="https://www.rostershop.store"
+                    <a href="https://www.roostershop.store"
   className="theme-btn bg-transparent"
 >
                       <span className="button-content-wrapper d-flex align-items-center">

@@ -33,7 +33,7 @@ export const SingleHeroSlide = () => {
                   <h2></h2>
                 </div>
                 <div className="hero-button">
-                  <Link href="/shop-single" className="theme-btn" data-animation="fadeInUp" data-duration={duration} data-delay="1.9s">
+                  <Link href="https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings" target="_blank" rel="noopener noreferrer" className="theme-btn" data-animation="fadeInUp" data-duration={duration} data-delay="1.9s">
                     <span className="button-content-wrapper d-flex align-items-center">
                       <span className="button-icon">
                         <i className="flaticon-delivery" />
