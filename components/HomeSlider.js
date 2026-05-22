@@ -142,7 +142,7 @@ const HomeSlider = () => {
             <div
               className="hero-1 bg-cover"
               style={{
-                backgroundImage: 'url("assets/img/hero/hero-bg.jpg")',
+                backgroundImage: 'url("assets/img/hero/heroImage.png")',
               }}
             >
               <div

@@ -2,15 +2,15 @@
 import Link from "next/link";
 import { Fragment, useState } from "react";
 
-const Header = ({ header }) => {
+const Header = ({ header, transparent }) => {
   switch (header) {
     case 1:
-      return <Header1 />;
+      return <Header1 transparent={transparent} />;
     case 2:
       return <Header2 />;
 
     default:
-      return <Header1 />;
+      return <Header1 transparent={transparent} />;
   }
 };
 export default Header;
@@ -29,7 +29,7 @@ const Menus = () => {
       <li>
         <Link href="/food-menu">Menu</Link>
       </li>
-      
+
       <li className="has-dropdown">
         <Link href="/about">
           About Us
@@ -44,7 +44,7 @@ const Menus = () => {
           </li>
           <li>
             <Link href="/testimonial">Testimonials</Link>
-          </li>          
+          </li>
         </ul>
       </li>
       <li>
@@ -54,48 +54,26 @@ const Menus = () => {
   );
 };
 
-const Header1 = () => {
+const Header1 = ({ transparent }) => {
+  const glassStyle = transparent
+    ? {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        background: "rgba(152, 206, 219, 0.40)",
+        backgroundColor: "rgba(152, 206, 219, 0.65)", // fallback for browsers without backdrop-filter
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        borderBottom: "0.5px solid rgba(255, 255, 255, 0.55)",
+      }
+    : {};
+
   return (
     <Fragment>
-      <header className="section-bg">
-        <div className="header-top">
-          <div className="container">
-            <div className="header-top-wrapper">
-              <ul>
-                <li>
-                  <span>100%</span> Fast & Fresh Delivery
-                </li>
-                <li>
-                  <i className="fas fa-truck" />
-                  513 Greene Street, Key West, FL 33040
-                </li>
-              </ul>
-              <div className="top-right">
-                <div className="search-wrp">
-                  <button>
-                    <i className="far fa-phone" />
-                  </button>
-                  <input placeholder="954-760-0555" aria-label="search" />
-                </div>
-                <div className="social-icon d-flex align-items-center">
-                  <a href="https://www.facebook.com/p/The-Wandering-Rooster-61579850699163/" target="_blank" rel="noopener noreferrer">
-                    <i className="fab fa-facebook-f" />
-                  </a>
-                  <a href="https://www.instagram.com/thewanderingrooster/" target="_blank" rel="noopener noreferrer">
-                    <i className="fab fa-instagram" />
-                  </a>
-                  <a href="https://www.google.com/search?q=the+wandering+rooster+google+business+profile&oq=the&gs_lcrp=EgZjaHJvbWUqBggBEEUYOzIGCAAQRRg8MgYIARBFGDsyDggCEEUYJxg7GIAEGIoFMhUIAxAuGCcYrwEYxwEYgAQYigUYjgUyBggEEEUYOTIGCAUQRRg8MgYIBhBFGD0yBggHEEUYQdIBCDM0MzlqMGo0qAIAsAIB&sourceid=chrome&ie=UTF-8" target="_blank" rel="noopener noreferrer">
-                    <i className="fab fa-google" />
-                  </a>
-                  <a href="https://www.yelp.com/biz/the-wandering-rooster-key-west" target="_blank" rel="noopener noreferrer">
-                    <i className="fab fa-yelp"  />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="header-sticky" className="header-1">
+      <header className={transparent ? "" : "section-bg"}>
+        <div id="header-sticky" className="header-1" style={glassStyle}>
           <div className="container">
             <div className="mega-menu-wrapper">
               <div className="header-main">
@@ -115,8 +93,8 @@ const Header1 = () => {
                 </div>
                 <div className="header-right d-flex justify-content-end align-items-center">
                   <div className="header-button">
-                    <Link href="https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings"  target="_blank" className="theme-btn bg-red-2">
-                      WE DELIVER 
+                    <Link href="https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings" target="_blank" className="theme-btn bg-red-2">
+                      WE DELIVER
                     </Link>
                   </div>
                 </div>
@@ -177,11 +155,11 @@ const Header2 = () => {
                   <a href="#0" className="search-trigger search-icon">
                     <i className="fal fa-search" />
                   </a>
-                  
+
                   <div className="header-button">
                     <a href="https://www.roostershop.store"
-  className="theme-btn bg-transparent"
->
+                      className="theme-btn bg-transparent"
+                    >
                       <span className="button-content-wrapper d-flex align-items-center">
                         <span className="button-icon">
                           <i className="flaticon-delivery" />
@@ -212,7 +190,7 @@ const MobileMenu = () => {
   return (
     <div className="twr-mobile-menu d-block d-lg-none" style={{ background: '#1a1a1a', padding: '20px' }}>
       <div style={{ position: 'relative' }}>
-        <button 
+        <button
           onClick={toggleMenu}
           style={{
             display: 'flex',
@@ -234,7 +212,6 @@ const MobileMenu = () => {
               height: '3px',
               width: '100%',
               position: 'absolute',
-              top: 0,
               borderRadius: '2px',
               transition: 'all 0.3s',
               transform: isOpen ? 'rotate(45deg)' : 'none',
@@ -258,7 +235,6 @@ const MobileMenu = () => {
               height: '3px',
               width: '100%',
               position: 'absolute',
-              bottom: 0,
               borderRadius: '2px',
               transition: 'all 0.3s',
               transform: isOpen ? 'rotate(-45deg)' : 'none',
@@ -267,7 +243,7 @@ const MobileMenu = () => {
             }}></span>
           </div>
         </button>
-        
+
         <nav style={{
           maxHeight: isOpen ? '1000px' : '0',
           overflow: 'hidden',
@@ -281,7 +257,7 @@ const MobileMenu = () => {
               </Link>
             </li>
             <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-              <a href="https://www.roostershop.store" style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
+              <a href="https://www.roostershop.store" target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
                 Shop
               </a>
             </li>
@@ -290,18 +266,13 @@ const MobileMenu = () => {
                 Menu
               </Link>
             </li>
-            <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-              <Link href="/news" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
-                Blog
-              </Link>
-            </li>
             <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', position: 'relative' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Link href="/about" style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500, flex: 1 }}>
-                  Pages
+                <Link href="/about" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500, flex: 1 }}>
+                  About Us
                 </Link>
-                <button 
-                  onClick={() => toggleSubmenu('pages')}
+                <button
+                  onClick={() => toggleSubmenu('about')}
                   style={{
                     width: '40px',
                     height: '40px',
@@ -313,7 +284,7 @@ const MobileMenu = () => {
                     cursor: 'pointer'
                   }}
                 >
-                  <i className="far fa-plus" style={{ transform: activeMenu === 'pages' ? 'rotate(45deg)' : 'none', transition: 'transform 0.3s' }}></i>
+                  <i className="far fa-plus" style={{ transform: activeMenu === 'about' ? 'rotate(45deg)' : 'none', transition: 'transform 0.3s' }}></i>
                 </button>
               </div>
               <ul style={{
@@ -321,7 +292,7 @@ const MobileMenu = () => {
                 padding: 0,
                 margin: 0,
                 background: 'rgba(0,0,0,0.3)',
-                maxHeight: activeMenu === 'pages' ? '500px' : '0',
+                maxHeight: activeMenu === 'about' ? '500px' : '0',
                 overflow: 'hidden',
                 transition: 'max-height 0.3s'
               }}>

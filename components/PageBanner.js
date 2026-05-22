@@ -4,14 +4,17 @@ const PageBanner = ({ pageName }) => {
   return (
     <div
       className="breadcrumb-wrapper bg-cover"
-      style={{ backgroundImage: 'url("assets/img/banner/banner.svg")' }}
+      style={{
+        backgroundImage: 'url("assets/img/banner/banner.svg")',
+        marginTop: 0,
+      }}
     >
       <div className="container">
         <div className="page-heading center">
           <h1>{pageName}</h1>
           <ul className="breadcrumb-items">
             <li>
-             <a href="/">Home</a>
+              <a href="/">Home</a>
             </li>
             <li>
               <i className="far fa-chevron-right" />
