@@ -1,24 +1,24 @@
-'use client';
- 
+"use client";
+
 import { SingleHeroSlide } from "@/components/SingleHeroSlide";
-import NewsletterCTA from "@/components/NewsletterCTA";
 import ModernTestimonials from "@/components/ModernTestimonials";
 import FoodKingLayout from "@/layouts/FoodKingLayout";
 import Link from "next/link";
 import FeaturedMenuItems from "@/components/FeaturedMenuItems";
 import FeaturedRetailProducts from "@/components/FeaturedRetailProducts";
- 
+
 const Page = () => {
   return (
     <FoodKingLayout>
       {/* Hero Section */}
       <SingleHeroSlide />
- 
+
       {/* Featured Menu Items Section */}
       <FeaturedMenuItems />
- 
+
       {/* Delivery CTA Banner */}
-      <section className="main-cta-banner-2 section-padding bg-cover"
+      <section
+        className="main-cta-banner-2 section-padding bg-cover"
         style={{
           backgroundImage: 'url("assets/img/banner/main-cta-bg-2.jpg")',
         }}
@@ -36,11 +36,15 @@ const Page = () => {
                 Island Fresh, Rooster Fast
               </span>
               <h2 className="text-white wow fadeInUp" data-wow-delay=".3s">
-                Fresh from the Roost,  <br />
+                Fresh from the Roost, <br />
                 <span className="theme-color-3">Straight to You</span>
               </h2>
             </div>
-            <Link href="/food-menu" className="theme-btn bg-white wow fadeInUp" data-wow-delay=".5s">
+            <Link
+              href="/food-menu"
+              className="theme-btn bg-white wow fadeInUp"
+              data-wow-delay=".5s"
+            >
               <span className="button-content-wrapper d-flex align-items-center">
                 <span className="button-icon">
                   <i className="flaticon-delivery" />
@@ -54,36 +58,40 @@ const Page = () => {
           </div>
         </div>
       </section>
- 
+
       {/* Featured Retail Products Section */}
       <FeaturedRetailProducts />
- 
+
       {/* Video Section */}
-      <div className="video-section section-padding bg-cover"
-        style={{ 
+      <div
+        className="video-section section-padding bg-cover"
+        style={{
           backgroundImage: 'url("assets/img/banner/video-bg.svg")',
-          position: 'relative'
+          position: "relative",
         }}
       >
         <div className="container">
-          <div className="video-wrapper" style={{ 
-            position: 'relative', 
-            paddingBottom: '10%',
-            height: 0,
-            overflow: 'hidden',
-            maxWidth: '600px',
-            margin: '0 auto',
-            borderRadius: '12px',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
-          }}>
+          <div
+            className="video-wrapper"
+            style={{
+              position: "relative",
+              paddingBottom: "10%",
+              height: 0,
+              overflow: "hidden",
+              maxWidth: "600px",
+              margin: "0 auto",
+              borderRadius: "12px",
+              boxShadow: "0 10px 40px rgba(0,0,0,0.3)",
+            }}
+          >
             <iframe
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 left: 0,
-                width: '100%',
-                height: '100%',
-                border: 0
+                width: "100%",
+                height: "100%",
+                border: 0,
               }}
               src="https://www.youtube.com/embed/zH9JWps1wOY?autoplay=0&mute=0&controls=1&loop=0&rel=0&modestbranding=1"
               title="Restaurant Video"
@@ -93,14 +101,11 @@ const Page = () => {
           </div>
         </div>
       </div>
- 
+
       {/* Testimonials Section */}
       <ModernTestimonials />
- 
-      {/* Newsletter CTA */}
-      <NewsletterCTA />
     </FoodKingLayout>
   );
 };
- 
+
 export default Page;
