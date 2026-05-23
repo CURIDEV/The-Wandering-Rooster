@@ -6,6 +6,7 @@ import FoodKingLayout from "@/layouts/FoodKingLayout";
 import Link from "next/link";
 import FeaturedMenuItems from "@/components/FeaturedMenuItems";
 import FeaturedRetailProducts from "@/components/FeaturedRetailProducts";
+import LoyaltyRewards from "@/components/LoyaltyRewards";
 
 const Page = () => {
   return (
@@ -104,6 +105,8 @@ const Page = () => {
 
       {/* Testimonials Section */}
       <ModernTestimonials />
+      {/* Loyalty Rewards Section */}
+      <LoyaltyRewards />  
     </FoodKingLayout>
   );
 };

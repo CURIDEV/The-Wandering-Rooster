@@ -1,60 +1,12 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Fragment, useState } from "react";
 
-const Header = ({ header, transparent }) => {
-  switch (header) {
-    case 1:
-      return <Header1 transparent={transparent} />;
-    case 2:
-      return <Header2 />;
+const Header = () => {
+  const pathname = usePathname();
+  const transparent = false;
 
-    default:
-      return <Header1 transparent={transparent} />;
-  }
-};
-export default Header;
-
-const Menus = () => {
-  return (
-    <ul>
-      <li>
-        <Link href="/">Home</Link>
-      </li>
-      <li>
-        <a href="https://www.roostershop.store" target="_blank" rel="noopener noreferrer">
-          Shop
-        </a>
-      </li>
-      <li>
-        <Link href="/food-menu">Menu</Link>
-      </li>
-
-      <li className="has-dropdown">
-        <Link href="/about">
-          About Us
-          <i className="fas fa-angle-down" />
-        </Link>
-        <ul className="submenu">
-          <li>
-            <Link href="/about">About Us</Link>
-          </li>
-          <li>
-            <Link href="/gallery">Gallery</Link>
-          </li>
-          <li>
-            <Link href="/testimonial">Testimonials</Link>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <Link href="/contact">Contact</Link>
-      </li>
-    </ul>
-  );
-};
-
-const Header1 = ({ transparent }) => {
   const glassStyle = transparent
     ? {
         position: "absolute",
@@ -63,7 +15,7 @@ const Header1 = ({ transparent }) => {
         right: 0,
         zIndex: 50,
         background: "rgba(152, 206, 219, 0.40)",
-        backgroundColor: "rgba(152, 206, 219, 0.65)", // fallback for browsers without backdrop-filter
+        backgroundColor: "rgba(152, 206, 219, 0.65)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         borderBottom: "0.5px solid rgba(255, 255, 255, 0.55)",
@@ -123,59 +75,44 @@ const Header1 = ({ transparent }) => {
     </Fragment>
   );
 };
+export default Header;
 
-const Header2 = () => {
+const Menus = () => {
   return (
-    <Fragment>
-      <header>
-        <div id="header-sticky" className="header-2">
-          <div className="container-fluid">
-            <div className="mega-menu-wrapper">
-              <div className="header-main">
-                <div className="header-left">
-                  <div className="logo">
-                    <Link href="/" className="header-logo">
-                      <img src="assets/img/logo/logo-3.svg" alt="logo-img" />
-                    </Link>
-                  </div>
-                  <div className="logo-2">
-                    <Link href="/" className="header-logo">
-                      <img src="assets/img/logo/logo.svg" alt="logo-img" />
-                    </Link>
-                  </div>
-                </div>
-                <div className="header-right d-flex justify-content-end align-items-center">
-                  <div className="mean__menu-wrapper d-none d-lg-block">
-                    <div className="main-menu">
-                      <nav id="mobile-menu">
-                        <Menus />
-                      </nav>
-                    </div>
-                  </div>
-                  <a href="#0" className="search-trigger search-icon">
-                    <i className="fal fa-search" />
-                  </a>
+    <ul>
+      <li>
+        <Link href="/">Home</Link>
+      </li>
+      <li>
+        <a href="https://www.roostershop.store" target="_blank" rel="noopener noreferrer">
+          Shop
+        </a>
+      </li>
+      <li>
+        <Link href="/food-menu">Menu</Link>
+      </li>
 
-                  <div className="header-button">
-                    <a href="https://www.roostershop.store"
-                      className="theme-btn bg-transparent"
-                    >
-                      <span className="button-content-wrapper d-flex align-items-center">
-                        <span className="button-icon">
-                          <i className="flaticon-delivery" />
-                        </span>
-                        <span className="button-text">order now</span>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-      <MobileMenu />
-    </Fragment>
+      <li className="has-dropdown">
+        <Link href="/about">
+          About Us
+          <i className="fas fa-angle-down" />
+        </Link>
+        <ul className="submenu">
+          <li>
+            <Link href="/about">About Us</Link>
+          </li>
+          <li>
+            <Link href="/gallery">Gallery</Link>
+          </li>
+          <li>
+            <Link href="/testimonial">Testimonials</Link>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <Link href="/contact">Contact</Link>
+      </li>
+    </ul>
   );
 };
 
