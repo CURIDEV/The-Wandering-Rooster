@@ -25,13 +25,6 @@ const MENU_DATA = [
         image: null,
       },
 
-      {
-        id: 3,
-        name: 'Smoked Chiken Wings',
-        description: 'Slow-smoked over real wood until the meat falls right off the bone. Deep, rich smoke flavor with crispy edges and tender, juicy centers. Wings the way they are meant to be done.',
-        price: 12.00,
-        image: null,
-      },
     ],
   },
   {
@@ -82,9 +75,9 @@ const MENU_DATA = [
     items: [
       {
         id: 20,
-        name: 'Cuban Sandwich',
-        description: 'Slow-smoked pork, sliced ham, and melted Swiss layered on toasted Cuban bread with mustard, crisp lettuce, and tangy pickles. Pressed until golden and crackling on the outside, warm and savory inside. A Key West classic, done our way.',
-        price: 15.00,
+        name: 'Rooster "Cuban" Mix',
+        description: 'Our twist on the classic Cuban Mix Sandwich. Slow-smoked pork, sliced ham, and melted Swiss on toasted Cuban bread with house mustard sauce, shredded lettuce, and tangypickles. Pressed until golden and crackling—warm and savory inside.',
+        price: 14.00,
         image: null,
       },
 
@@ -92,7 +85,7 @@ const MENU_DATA = [
         id: 21,
         name: 'Pulled Pork Sandwich',
         description: 'Piled-high pulled pork smoked low and slow, finished with rich BBQ sauce and a crisp mango slaw on a soft potato bun. Tender meat, tangy sauce, sweet heat from the slaw—comfort food with island soul.',
-        price: 12.00,
+        price: 14.00,
         image: null,
       },
     ],
@@ -118,9 +111,9 @@ const MENU_DATA = [
 
       {
         id: 32,
-        name: 'Mango Slaw',
-        description: 'Served with chipotle aioli',
-        price: 6.00,
+        name: 'Island Slaw',
+        description: 'Sweet & tangy tropical slaw with a fresh island twist.',
+        price: 4.00,
         image: null,
       },
     ],
@@ -132,15 +125,15 @@ const MENU_DATA = [
         id: 40,
         name: 'Key West Lemonade',
         description: 'Fresh-squeezed with a Key West twist',
-        price: 4.00,
+        price: 5.00,
         image: null,
       },
 
       {
         id: 41,
-        name: 'Fresh Sweet Tea',
+        name: 'Chilled Southern Sweet Tea',
         description: 'Fresh-squeezed with a Key West twist',
-        price: 4.00,
+        price: 5.00,
         image: null,
       },
 
@@ -148,7 +141,7 @@ const MENU_DATA = [
         id: 42,
         name: 'Coca-Cola',
         description: 'Fresh-squeezed with a Key West twist',
-        price: 4.00,
+        price: 3.50,
         image: null,
       },
 
@@ -156,7 +149,7 @@ const MENU_DATA = [
         id: 43,
         name: 'Sprite',
         description: 'Fresh-squeezed with a Key West twist',
-        price: 4.00,
+        price: 3.50,
         image: null,
       },
 
@@ -164,7 +157,7 @@ const MENU_DATA = [
         id: 44,
         name: 'Diet Coke',
         description: 'Fresh-squeezed with a Key West twist',
-        price: 4.00,
+        price: 3.50,
         image: null,
       },
 
@@ -172,7 +165,7 @@ const MENU_DATA = [
         id: 45,
         name: 'Bottled Water',
         description: 'Fresh-squeezed with a Key West twist',
-        price: 4.00,
+        price: 3.50,
         image: null,
       },
     ],
