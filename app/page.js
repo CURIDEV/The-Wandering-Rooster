@@ -42,7 +42,7 @@ const Page = () => {
               </h2>
             </div>
             <Link
-              href="/food-menu"
+              href="https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings"
               className="theme-btn bg-white wow fadeInUp"
               data-wow-delay=".5s"
             >

@@ -117,7 +117,7 @@ const AboutPage = () => {
                   </div>
 
                   <div className="mt-4 wow fadeInUp" data-wow-delay="1s">
-                    <Link href="/menu" className="theme-btn">
+                    <Link href="https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings" className="theme-btn">
                       <span className="button-content-wrapper d-flex align-items-center">
                         <span className="button-icon">
                           <i className="flaticon-fork" />
@@ -389,7 +389,7 @@ const AboutPage = () => {
                 </span>
               </Link>
               <a 
-                href="https://www.google.com/search?q=your+business+key+west" 
+                href="https://www.google.com/search?q=the+wandering+rooster&oq=the+wan&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGDkyBwgCEAAYjwIyBwgDEAAYjwIyBwgEEAAYjwIyBggFEEUYQTIGCAYQRRg9MgYIBxBFGEHSAQgxNzg4ajBqN6gCALACAQ&sourceid=chrome&ie=UTF-8&sei=LxUfaseVMdGzwt0Prt3V6QY" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="theme-btn"

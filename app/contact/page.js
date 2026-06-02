@@ -93,8 +93,8 @@ const ContactPage = () => {
                     <div>
                       <h4 style={{ fontSize: '18px', marginBottom: '8px', color: '#333' }}>Phone</h4>
                       <p style={{ margin: 0, color: '#666' }}>
-                        <a href="tel:+13055551234" style={{ color: '#ff6b35', textDecoration: 'none' }}>
-                          (305) 555-1234
+                        <a href="tel:+17865536807" style={{ color: '#ff6b35', textDecoration: 'none' }}>
+                          (786) 553-6807
                         </a>
                       </p>
                     </div>
@@ -130,8 +130,8 @@ const ContactPage = () => {
                     <div>
                       <h4 style={{ fontSize: '18px', marginBottom: '8px', color: '#333' }}>Email</h4>
                       <p style={{ margin: 0, color: '#666' }}>
-                        <a href="mailto:info@yourfoodtruck.com" style={{ color: '#ff6b35', textDecoration: 'none' }}>
-                          info@yourfoodtruck.com
+                        <a href="mailto:twradmin@thewanderingrooster.com" style={{ color: '#ff6b35', textDecoration: 'none' }}>
+                          twradmin@thewanderingrooster.com
                         </a>
                       </p>
                     </div>
@@ -292,7 +292,7 @@ const ContactPage = () => {
                   flexWrap: 'wrap'
                 }}>
                   <a 
-                    href="/menu" 
+                    href="/food-menu" 
                     className="theme-btn"
                     style={{
                       flex: '1',
@@ -310,7 +310,7 @@ const ContactPage = () => {
                     </span>
                   </a>
                   <a 
-                    href="https://your-skytab-ordering-url.com" 
+                    href="https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings" 
                     target="_blank"
                     rel="noopener noreferrer"
                     className="theme-btn"

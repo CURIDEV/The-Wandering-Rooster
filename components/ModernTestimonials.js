@@ -157,7 +157,7 @@ const ModernTestimonials = () => {
             What Our Customers Say
           </h2>
           <p className="wow fadeInUp" data-wow-delay=".4s" style={{ color: '#666', marginTop: '10px' }}>
-            Over 100 five-star reviews in our first 90 days!
+            Over 200 five-star reviews!
           </p>
         </div>
 
@@ -344,7 +344,7 @@ const ModernTestimonials = () => {
             Love our food? Share your experience!
           </p>
           <a 
-            href="https://www.google.com/search?q=your+business+name+key+west" 
+            href="https://www.google.com/search?q=the+wandering+rooster&oq=the+wan&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGDkyBwgCEAAYjwIyBwgDEAAYjwIyBwgEEAAYjwIyBggFEEUYQTIGCAYQRRg9MgYIBxBFGEHSAQgxNzg4ajBqN6gCALACAQ&sourceid=chrome&ie=UTF-8&sei=LxUfaseVMdGzwt0Prt3V6QY" 
             target="_blank"
             rel="noopener noreferrer"
             className="theme-btn"

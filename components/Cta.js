@@ -21,11 +21,15 @@ const Cta = () => {
               Island Fresh, Rooster Fast
             </span>
             <h2 className="text-white wow fadeInUp" data-wow-delay=".3s">
-              Fresh from the Roost,  <br />
+              Fresh from the Roost, <br />
               <span className="theme-color-3">Straight to You</span>
             </h2>
           </div>
-          <Link href="/food-menu" className="theme-btn bg-white wow fadeInUp" data-wow-delay=".5s">
+          <Link
+            href="https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings"
+            className="theme-btn bg-white wow fadeInUp"
+            data-wow-delay=".5s"
+          >
             <span className="button-content-wrapper d-flex align-items-center">
               <span className="button-icon">
                 <i className="flaticon-delivery" />

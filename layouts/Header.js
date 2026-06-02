@@ -104,9 +104,6 @@ const Menus = () => {
           <li>
             <Link href="/gallery">Gallery</Link>
           </li>
-          <li>
-            <Link href="/testimonial">Testimonials</Link>
-          </li>
         </ul>
       </li>
       <li>
@@ -241,11 +238,6 @@ const MobileMenu = () => {
                 <li>
                   <Link href="/gallery" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px 15px 30px', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '14px' }}>
                     Gallery
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/testimonial" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px 15px 30px', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '14px' }}>
-                    Testimonials
                   </Link>
                 </li>
               </ul>
