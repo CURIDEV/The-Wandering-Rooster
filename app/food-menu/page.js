@@ -253,7 +253,7 @@ const FoodMenu2 = () => {
                 </div>
                 <div>
                   <i className="fas fa-phone" style={{ color: '#ff6b35', marginRight: '8px' }} />
-                  (305) 555-1234
+                  (786) 553-6807
                 </div>
               </div>
             </div>
