@@ -279,10 +279,9 @@ const Footer = () => {
               <Link href="/">The Wandering Rooster</Link>. All Rights Reserved.
             </p>
             <div className="footer-links wow fadeInRight" data-wow-delay=".5s">
-              <Link href="/" className="me-3">
-                Privacy Policy
+              <Link href="https://atriom.app" className="me-3" target="_blank" rel="noopener noreferrer">
+                Site by Atriom 
               </Link>
-              <Link href="/">Terms & Conditions</Link>
             </div>
           </div>
         </div>

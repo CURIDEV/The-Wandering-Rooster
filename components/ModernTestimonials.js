@@ -10,50 +10,50 @@ const ModernTestimonials = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Sarah Johnson",
+      name: "Donald Yates",
       role: "Google Reviewer",
       image: "assets/img/client/avatar-1.jpg",
-      text: "Best conch fritters in Key West! The seasoning is perfect and they're always fresh and hot. I come here at least twice a week!",
+      text: "Their smash burger is top notch. The service was great and fast. The owner even came out to make sure we enjoyed our meal. I'm going for the Cuban mix next. Can't wait.",
       rating: 5
     },
     {
       id: 2,
-      name: "Mike Rodriguez",
-      role: "Local Regular",
+      name: "Hariprasad Jothi",
+      role: "Google Reviewer",
       image: "assets/img/client/avatar-2.jpg",
-      text: "The turtle soup is incredible - authentic Key West recipe. Staff is friendly and the atmosphere is great. Highly recommend!",
+      text: "Truly the best and flavorful smash burger I’ve ever tried. Highly recommend and will definitely visit soon to try their cuban sandwich with conch fritters, and of course the smash burgers again!",
       rating: 5
     },
     {
       id: 3,
-      name: "Emily Chen",
-      role: "Visitor from Miami",
+      name: "Neal Elliott",
+      role: "Google Reviewer",
       image: "assets/img/client/avatar-3.jpg",
-      text: "Found this gem while visiting Key West. The grouper sandwich was amazing and the tots were perfectly crispy. Will definitely be back!",
+      text: "Looking for some good conch fritters. Wandering Rooster delivered along with excellent hand cut potato chips. Place is cute and even comes with a real Rooster. So Key West! Worth taking a very short walk off Duval.",
       rating: 5
     },
     {
       id: 4,
-      name: "David Thompson",
-      role: "Facebook Reviewer",
+      name: "Robertdrew Greeley",
+      role: "Google Reviewer",
       image: "assets/img/client/avatar-4.jpg",
-      text: "Authentic Key West flavors! The conch chowder is the best I've had. Great portions and friendly service. A must-visit spot!",
+      text: "I wish I had photos because this burger was genuinely beautiful—but it tasted so good that I demolished it before my phone even crossed my mind. I ended up ordering two rounds because it was that unreal.",
       rating: 5
     },
     {
       id: 5,
-      name: "Lisa Martinez",
-      role: "Tourist",
+      name: "Liby Hansen",
+      role: "Google Reviewer",
       image: "assets/img/client/avatar-5.jpg",
-      text: "We came here three times during our vacation! Everything on the menu is delicious. The key lime pie is to die for!",
+      text: "Best smash burger in the keys and quite possibly…anywhere EVER! I would have taken a pic of the burger but it was so delish I forgot. ;-) Do not miss this spot when you visit.",
       rating: 5
     },
     {
       id: 6,
-      name: "James Wilson",
-      role: "Yelp Reviewer",
+      name: "Beau Buckley",
+      role: "Google Reviewer",
       image: "assets/img/client/avatar-6.jpg",
-      text: "Best food truck in Key West, hands down. Fresh ingredients, generous portions, and incredible taste. You won't be disappointed!",
+      text: "If you’re in Key West, The Wandering Rooster is a must-stop. Incredible food and worth every bite.Hands down the best smash burger I’ve ever had. I ordered The Rooster and it absolutely lived up to the hype, and was packed with flavor. You can tell they really know what they’re doing!",
       rating: 5
     }
   ];
