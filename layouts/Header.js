@@ -3,58 +3,170 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useState } from "react";
 
+const ORDER_URL =
+  "https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings";
+
 const Header = () => {
   const pathname = usePathname();
-  const transparent = false;
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState("");
 
-  const glassStyle = transparent
-    ? {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        background: "rgba(152, 206, 219, 0.40)",
-        backgroundColor: "rgba(152, 206, 219, 0.65)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        borderBottom: "0.5px solid rgba(255, 255, 255, 0.55)",
-      }
-    : {};
+  const toggleMenu = () => setIsOpen((v) => !v);
+  const closeMenu = () => {
+    setIsOpen(false);
+    setActiveMenu("");
+  };
+  const toggleSubmenu = (menu) =>
+    setActiveMenu((m) => (m === menu ? "" : menu));
 
   return (
     <Fragment>
-      <header className={transparent ? "" : "section-bg"}>
-        <div id="header-sticky" className="header-1" style={glassStyle}>
+      <header className="section-bg">
+        <div id="header-sticky" className="header-1">
           <div className="container">
             <div className="mega-menu-wrapper">
               <div className="header-main">
+                {/* Logo */}
                 <div className="logo">
                   <Link href="/" className="header-logo">
-                    <img src="assets/img/logo/twr_logo.svg" alt="logo-img" width="90" height="90" />
+                    <img
+                      src="assets/img/logo/twr_logo.svg"
+                      alt="The Wandering Rooster"
+                      width="90"
+                      height="90"
+                      className="twr-logo-img"
+                    />
                   </Link>
                 </div>
+
+                {/* Desktop navigation (hidden below lg) */}
                 <div className="header-left">
                   <div className="mean__menu-wrapper d-none d-lg-block">
                     <div className="main-menu">
                       <nav id="mobile-menu">
-                        <Menus />
+                        <Menus pathname={pathname} />
                       </nav>
                     </div>
                   </div>
                 </div>
-                <div className="header-right d-flex justify-content-end align-items-center">
-                  <div className="header-button">
-                    <Link href="https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings" target="_blank" className="theme-btn bg-red-2">
-                      WE DELIVER
-                    </Link>
-                  </div>
+
+                {/* Right cluster: order button (all sizes) + hamburger (mobile) */}
+                <div
+                  className="header-right d-flex justify-content-end align-items-center"
+                  style={{ gap: "12px" }}
+                >
+                  <Link
+                    href={ORDER_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="twr-order-btn"
+                  >
+                    <i
+                      className="fas fa-shopping-bag"
+                      style={{ marginRight: "8px" }}
+                    />
+                    WE DELIVER
+                  </Link>
+
+                  {/* Hamburger toggle — mobile only */}
+                  <button
+                    type="button"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded={isOpen}
+                    onClick={toggleMenu}
+                    className="twr-burger d-lg-none"
+                  >
+                    <span
+                      className={`twr-burger__bar ${isOpen ? "is-open-1" : ""}`}
+                    />
+                    <span
+                      className={`twr-burger__bar ${isOpen ? "is-open-2" : ""}`}
+                    />
+                    <span
+                      className={`twr-burger__bar ${isOpen ? "is-open-3" : ""}`}
+                    />
+                  </button>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Mobile dropdown panel — slides down from the bar, mobile only */}
+          <div
+            className={`twr-mobile-panel d-lg-none ${isOpen ? "is-open" : ""}`}
+          >
+            <ul>
+              <li>
+                <Link href="/" onClick={closeMenu}>
+                  Home
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://www.roostershop.store"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={closeMenu}
+                >
+                  Shop
+                </a>
+              </li>
+              <li>
+                <Link href="/food-menu" onClick={closeMenu}>
+                  Menu
+                </Link>
+              </li>
+
+              <li>
+                <div className="twr-submenu-row">
+                  <Link href="/about" onClick={closeMenu} style={{ flex: 1 }}>
+                    About Us
+                  </Link>
+                  <button
+                    type="button"
+                    aria-label="Toggle About submenu"
+                    className="twr-submenu-toggle"
+                    onClick={() => toggleSubmenu("about")}
+                  >
+                    <i
+                      className="fas fa-plus"
+                      style={{
+                        transform:
+                          activeMenu === "about" ? "rotate(45deg)" : "none",
+                        transition: "transform 0.3s ease",
+                      }}
+                    />
+                  </button>
+                </div>
+                <ul
+                  className={`twr-submenu ${
+                    activeMenu === "about" ? "is-open" : ""
+                  }`}
+                >
+                  <li>
+                    <Link href="/about" onClick={closeMenu}>
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/gallery" onClick={closeMenu}>
+                      Gallery
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <Link href="/contact" onClick={closeMenu}>
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </header>
+
+      {/* Search overlay (unchanged) */}
       <div className="search-wrap">
         <div className="search-inner">
           <i className="fas fa-times search-close" id="search-close" />
@@ -71,29 +183,139 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <MobileMenu />
+
+      {/* Component-scoped styles — self-contained so they don't fight the theme */}
+      <style>{`
+        .twr-order-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: #D12525;
+          color: #fff;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.4px;
+          border-radius: 6px;
+          text-decoration: none;
+          padding: 16px 24px;
+          font-size: 15px;
+          line-height: 1;
+          white-space: nowrap;
+          transition: background 0.25s ease, transform 0.12s ease;
+        }
+        .twr-order-btn:hover { background: #b31f1f; color: #fff; }
+        .twr-order-btn:active { transform: scale(0.97); }
+
+        .twr-burger {
+          display: inline-flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 5px;
+          width: 46px;
+          height: 46px;
+          padding: 0 11px;
+          background: #D12525;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+        .twr-burger__bar {
+          display: block;
+          width: 100%;
+          height: 3px;
+          background: #fff;
+          border-radius: 2px;
+          transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .twr-burger__bar.is-open-1 { transform: translateY(8px) rotate(45deg); }
+        .twr-burger__bar.is-open-2 { opacity: 0; }
+        .twr-burger__bar.is-open-3 { transform: translateY(-8px) rotate(-45deg); }
+
+        .twr-mobile-panel {
+          overflow: hidden;
+          max-height: 0;
+          background: #0E4B4B;
+          transition: max-height 0.35s ease;
+        }
+        .twr-mobile-panel.is-open { max-height: 640px; }
+        .twr-mobile-panel ul { list-style: none; margin: 0; padding: 0; }
+        .twr-mobile-panel a {
+          display: block;
+          padding: 16px 24px;
+          color: #fff;
+          text-decoration: none;
+          font-size: 16px;
+          font-weight: 600;
+          border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .twr-mobile-panel a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+
+        .twr-submenu-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .twr-submenu-row a { border-bottom: none; }
+        .twr-submenu-toggle {
+          width: 52px;
+          height: 54px;
+          background: transparent;
+          border: none;
+          color: #fff;
+          cursor: pointer;
+        }
+        .twr-submenu {
+          max-height: 0;
+          overflow: hidden;
+          background: rgba(0,0,0,0.25);
+          transition: max-height 0.3s ease;
+        }
+        .twr-submenu.is-open { max-height: 220px; }
+        .twr-submenu a {
+          padding-left: 44px;
+          font-size: 14px;
+          font-weight: 500;
+          color: rgba(255,255,255,0.82);
+        }
+
+        /* Mobile-only tweaks (below Bootstrap lg = 992px) */
+        @media (max-width: 991.98px) {
+          .twr-logo-img { height: 50px; width: auto; }
+          .twr-order-btn { padding: 14px 18px; font-size: 13px; }
+        }
+      `}</style>
     </Fragment>
   );
 };
+
 export default Header;
 
-const Menus = () => {
+const Menus = ({ pathname }) => {
+  const isActive = (href) => (pathname === href ? "active" : "");
   return (
     <ul>
       <li>
-        <Link href="/">Home</Link>
+        <Link href="/" className={isActive("/")}>
+          Home
+        </Link>
       </li>
       <li>
-        <a href="https://www.roostershop.store" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://www.roostershop.store"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Shop
         </a>
       </li>
       <li>
-        <Link href="/food-menu">Menu</Link>
+        <Link href="/food-menu" className={isActive("/food-menu")}>
+          Menu
+        </Link>
       </li>
-
       <li className="has-dropdown">
-        <Link href="/about">
+        <Link href="/about" className={isActive("/about")}>
           About Us
           <i className="fas fa-angle-down" />
         </Link>
@@ -107,149 +329,10 @@ const Menus = () => {
         </ul>
       </li>
       <li>
-        <Link href="/contact">Contact</Link>
+        <Link href="/contact" className={isActive("/contact")}>
+          Contact
+        </Link>
       </li>
     </ul>
-  );
-};
-
-const MobileMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState("");
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const closeMenu = () => setIsOpen(false);
-  const toggleSubmenu = (menu) => setActiveMenu(activeMenu === menu ? "" : menu);
-
-  return (
-    <div className="twr-mobile-menu d-block d-lg-none" style={{ background: '#1a1a1a', padding: '20px' }}>
-      <div style={{ position: 'relative' }}>
-        <button
-          onClick={toggleMenu}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '45px',
-            height: '45px',
-            background: '#D12525',
-            borderRadius: '6px',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 0
-          }}
-        >
-          <div style={{ width: '25px', height: '20px', position: 'relative' }}>
-            <span style={{
-              display: 'block',
-              background: '#fff',
-              height: '3px',
-              width: '100%',
-              position: 'absolute',
-              borderRadius: '2px',
-              transition: 'all 0.3s',
-              transform: isOpen ? 'rotate(45deg)' : 'none',
-              transformOrigin: 'center',
-              top: isOpen ? '8px' : '0'
-            }}></span>
-            <span style={{
-              display: 'block',
-              background: '#fff',
-              height: '3px',
-              width: '100%',
-              position: 'absolute',
-              top: '8px',
-              borderRadius: '2px',
-              transition: 'all 0.3s',
-              opacity: isOpen ? 0 : 1
-            }}></span>
-            <span style={{
-              display: 'block',
-              background: '#fff',
-              height: '3px',
-              width: '100%',
-              position: 'absolute',
-              borderRadius: '2px',
-              transition: 'all 0.3s',
-              transform: isOpen ? 'rotate(-45deg)' : 'none',
-              transformOrigin: 'center',
-              bottom: isOpen ? '8px' : '0'
-            }}></span>
-          </div>
-        </button>
-
-        <nav style={{
-          maxHeight: isOpen ? '1000px' : '0',
-          overflow: 'hidden',
-          transition: 'max-height 0.3s',
-          marginTop: '20px'
-        }}>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-              <Link href="/" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
-                Home
-              </Link>
-            </li>
-            <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-              <a href="https://www.roostershop.store" target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
-                Shop
-              </a>
-            </li>
-            <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-              <Link href="/food-menu" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
-                Menu
-              </Link>
-            </li>
-            <li style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', position: 'relative' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Link href="/about" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500, flex: 1 }}>
-                  About Us
-                </Link>
-                <button
-                  onClick={() => toggleSubmenu('about')}
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                    background: 'rgba(255,255,255,0.1)',
-                    border: 'none',
-                    color: '#fff',
-                    borderRadius: '4px',
-                    marginRight: '10px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <i className="far fa-plus" style={{ transform: activeMenu === 'about' ? 'rotate(45deg)' : 'none', transition: 'transform 0.3s' }}></i>
-                </button>
-              </div>
-              <ul style={{
-                listStyle: 'none',
-                padding: 0,
-                margin: 0,
-                background: 'rgba(0,0,0,0.3)',
-                maxHeight: activeMenu === 'about' ? '500px' : '0',
-                overflow: 'hidden',
-                transition: 'max-height 0.3s'
-              }}>
-                <li>
-                  <Link href="/about" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px 15px 30px', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '14px' }}>
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/gallery" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px 15px 30px', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '14px' }}>
-                    Gallery
-                  </Link>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <Link href="/contact" onClick={closeMenu} style={{ display: 'block', padding: '15px 10px', color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: 500 }}>
-                Contact
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
   );
 };
