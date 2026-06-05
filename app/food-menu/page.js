@@ -140,7 +140,7 @@ const MENU_DATA = [
 {
         id: 42,
         name: 'Coca-Cola',
-        description: 'Fresh-squeezed with a Key West twist',
+        description: 'Classic Coke, the original cola flavor.',
         price: 3.50,
         image: null,
       },
@@ -148,7 +148,7 @@ const MENU_DATA = [
       {
         id: 43,
         name: 'Sprite',
-        description: 'Fresh-squeezed with a Key West twist',
+        description: 'Refreshing lemon-lime soda.',
         price: 3.50,
         image: null,
       },
@@ -156,7 +156,7 @@ const MENU_DATA = [
       {
         id: 44,
         name: 'Diet Coke',
-        description: 'Fresh-squeezed with a Key West twist',
+        description: 'Zero sugar version of the classic cola.',
         price: 3.50,
         image: null,
       },
@@ -164,7 +164,7 @@ const MENU_DATA = [
         {
         id: 45,
         name: 'Bottled Water',
-        description: 'Fresh-squeezed with a Key West twist',
+        description: 'Clean, refreshing bottled water.',
         price: 3.50,
         image: null,
       },
