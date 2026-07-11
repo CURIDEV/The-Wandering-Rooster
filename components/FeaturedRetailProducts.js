@@ -3,21 +3,21 @@
 const retailProducts = [
   {
     id: 1,
-    name: "TWR Logo Tee",
-    price: "20.00",
+    name: "The Wandering Rooster Tee",
+    price: "25.00",
     image: "/assets/img/retail-images/twrback.png",
   },
   {
     id: 2,
-    name: "CAFO Tee",
-    price: "20.00",
+    name: "Cluck Around and Find Out Tee",
+    price: "25.00",
     image: "/assets/img/retail-images/cafoback.png",
   },
-  {
-    id: 3,
-    name: "TWR Tote Bag",
+    {
+    id: 4,
+    name: "Cluck Around and Find Out Racerback Tank",
     price: "20.00",
-    image: "/assets/img/retail-images/totebagbw.png",
+    image: "/assets/img/retail-images/racerback.png",
   },
 ];
  
