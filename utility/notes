@@ -1,3 +1,52 @@
+/* ============================================================
+   VACATION MODE — REOPENING CHECKLIST (added Aug 25, 2026)
+   ============================================================
+
+   The homepage is currently the "We're Off Wandering" vacation
+   notice instead of the normal marketing page. Reopening date is
+   Thursday, October 1, 2026.
+
+   TO REOPEN — the only required step:
+
+     1. config/vacation.js  ->  set VACATION_MODE = false
+        Then rebuild/redeploy.
+
+   That one flag does all of this:
+     - app/page.js swaps VacationNotice back to the normal HomePage
+     - layouts/Header.js swaps the green "BACK OCTOBER 1" badge back
+       to the red "WE DELIVER" button (SkyTab ordering link)
+     - the homepage <title>/description revert to the normal ones
+
+   WHAT WAS ADDED / CHANGED:
+     config/vacation.js            NEW - VACATION_MODE, REOPEN_DATE, REOPEN_LABEL
+     components/VacationNotice.js  NEW - the vacation landing page
+     components/HomePage.js        MOVED - this is the OLD app/page.js, untouched
+     app/page.js                   REWRITTEN - just picks HomePage or VacationNotice
+     layouts/Header.js             EDITED - order button is conditional now
+
+   IF THE DATE CHANGES:
+     Update REOPEN_DATE and REOPEN_LABEL in config/vacation.js. The
+     countdown, the "Thursday, October 1" card, the header badge, and
+     the page metadata all read from those two values.
+     NOTE: the word "Thursday" is hardcoded in VacationNotice.js — if
+     the new date is not a Thursday, fix that line too.
+
+   SAFETY NET: if Oct 1 passes and nobody flips the flag, the countdown
+   replaces itself with "We're back! Come see us at 513 Greene Street."
+   The page still says "closed" everywhere else, so flip the flag.
+
+   KNOWN ISSUES SPOTTED WHILE BUILDING THIS (not fixed, out of scope):
+     - public/assets/css/main.css line 14 has --theme: #98cedb (pale blue)
+       but public/assets/scss/_variables.scss says --theme: #00813D (green).
+       The compiled CSS has drifted from the SCSS source. This is why the
+       footer Subscribe button is pale blue with unreadable white text.
+       The vacation page sets its own green on its buttons to work around it.
+     - Phone number mismatch: /food-menu shows (786) 553-68xx, the footer
+       shows (954) 760-0555. One of them is wrong.
+     - Menu / About / Gallery / Contact still work normally during vacation
+       and may still invite orders. Left that way on purpose.
+   ============================================================ */
+
 //HomePage
 /*
 Buttons Redirect 

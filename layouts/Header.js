@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useState } from "react";
+import { VACATION_MODE, REOPEN_LABEL } from "@/config/vacation";
 
 const ORDER_URL =
   "https://online.skytab.com/2f3f98da057f3ff70d5e32d773b8e783/order-settings";
@@ -55,18 +56,28 @@ const Header = () => {
                   className="header-right d-flex justify-content-end align-items-center"
                   style={{ gap: "12px" }}
                 >
-                  <Link
-                    href={ORDER_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="twr-order-btn"
-                  >
-                    <i
-                      className="fas fa-shopping-bag"
-                      style={{ marginRight: "8px" }}
-                    />
-                    WE DELIVER
-                  </Link>
+                  {VACATION_MODE ? (
+                    <span className="twr-order-btn twr-order-btn--closed">
+                      <i
+                        className="fas fa-umbrella-beach"
+                        style={{ marginRight: "8px" }}
+                      />
+                      BACK {REOPEN_LABEL.toUpperCase()}
+                    </span>
+                  ) : (
+                    <Link
+                      href={ORDER_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="twr-order-btn"
+                    >
+                      <i
+                        className="fas fa-shopping-bag"
+                        style={{ marginRight: "8px" }}
+                      />
+                      WE DELIVER
+                    </Link>
+                  )}
 
                   {/* Hamburger toggle — mobile only */}
                   <button
@@ -205,6 +216,11 @@ const Header = () => {
         }
         .twr-order-btn:hover { background: #b31f1f; color: #fff; }
         .twr-order-btn:active { transform: scale(0.97); }
+
+        /* Vacation mode: a status badge, not a link — nothing to click. */
+        .twr-order-btn--closed { background: #00813D; cursor: default; }
+        .twr-order-btn--closed:hover { background: #00813D; }
+        .twr-order-btn--closed:active { transform: none; }
 
         .twr-burger {
           display: inline-flex;
